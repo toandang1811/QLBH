@@ -77,7 +77,8 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Update(List<UpdateImageProductRequest> request, List<int> deleteIds, int productId,string idDefault = null)
         {
-            var res = new BaseResponse<List<ProductImage>>();
+            var res = new BaseResponse<List<UpdateImageProductResponse>>();
+            List<UpdateImageProductResponse> data = null;
             try
             {
                 var listImg = db.ProductImages.Where(x => x.ProductId == productId).ToList();
@@ -120,7 +121,14 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                     foreach (var id in deleteIds)
                     {
                         var item = db.ProductImages.Find(id);
-                        if (Applications.Instance.DeleteImageCloudinary(item.PublicId))
+                        if (!string.IsNullOrEmpty(item.PublicId))
+                        {
+                            if (Applications.Instance.DeleteImageCloudinary(item.PublicId))
+                            {
+                                db.ProductImages.Remove(item);
+                            }
+                        }
+                        else
                         {
                             db.ProductImages.Remove(item);
                         }
@@ -128,14 +136,26 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 }
                 db.SaveChanges();
 
+                var items = db.ProductImages.Where(x => x.ProductId == productId).ToList();
+                data = new List<UpdateImageProductResponse>();
+                foreach (var item in items)
+                {
+                    UpdateImageProductResponse updateImageProductResponse = new UpdateImageProductResponse();
+                    updateImageProductResponse.Id = item.Id;
+                    updateImageProductResponse.ProductId = item.ProductId;
+                    updateImageProductResponse.Image = item.Image;
+                    updateImageProductResponse.PublicId = item.PublicId;
+                    updateImageProductResponse.IsDefault = item.IsDefault;
+                    data.Add(updateImageProductResponse);
+                }
                 res.IsError = false;
-                res.Error = string.Empty;
-                res.Data = db.ProductImages.Where(x => x.ProductId == productId).ToList();
+                res.MessageError = string.Empty;
+                res.Data = data;
             }
             catch (Exception ex) 
             {
                 res.IsError = true;
-                res.Error = ex.Message;
+                res.MessageError = ex.Message;
                 res.Data = null;
             }
             return Json(res);

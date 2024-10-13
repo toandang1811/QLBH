@@ -75,24 +75,8 @@
                 <!--<div class="taskbar">-->
                 <!-- Các nút trên taskbar -->
                 <!--<button class="taskbar-button" id="add-btn">
-                <i class="fas fa-plus"></i>
-            </button>
-            <button class="taskbar-button" id="edit-btn">
-                <i class="fas fa-edit"></i>
-            </button>
-            <button class="taskbar-button" id="delete-btn">
-                <i class="fas fa-trash"></i>
-            </button>
-            <button class="taskbar-button" id="save-btn">
-                <i class="fas fa-save"></i>
-            </button>
-            <button class="taskbar-button" id="export-btn">
-                <i class="fas fa-file-export"></i>
-            </button>
-            <button class="taskbar-button" id="import-btn">
-                <i class="fas fa-file-import"></i>
-            </button>
-        </div>-->
+                    <i class="fas fa-plus"></i>
+                </button>-->
             </div>
             <input type="file" id="fileInput" name="file" style="display: none;" />
         </div>
@@ -106,7 +90,7 @@
                         <div class="col-sm-2 line-img @(item.IsDefault ? "check-default" : "")" id="image-@item.Id">
                             <button class="close" data-id="image-@item.Id"><i class="fas fa-times"></i></button>
                             <input type="hidden" id="public-id-image-@item.Id" value="@item.PublicId" style="border-style: groove;" />
-                            <img src="@item.Image" class="img-fluid mb-2" alt="white sample" />
+                            <img src="@item.Image" id="src-image-@item.Id" class="img-fluid mb-2" alt="white sample" />
                         </div>
                         i++;
                     }
@@ -152,7 +136,7 @@
 <!-- /.content -->
 
 @section scripts{
-    <script src="~/Areas/Admin/Scripts/jsProductImage.js"></script>
+    <script src="~/Areas/Admin/Scripts/ProductImage/index.js"></script>
     <script src="~/Areas/Admin/Scripts/jsCommonAdmin.js"></script>
 }
 @*<script>

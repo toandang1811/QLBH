@@ -120,6 +120,45 @@ _common = new function () {
             $('#card-action').find('.overlay').remove();
         }
     }
+
+    this.ShowConfirm = function (title, content, funcOk, funcCancel = null) {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-success",
+                cancelButton: "btn btn-danger"
+            },
+            buttonsStyling: false
+        });
+        swalWithBootstrapButtons.fire({
+            title: title,
+            text: content,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Xác nhận",
+            cancelButtonText: "Hủy",
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                funcOk();
+                //swalWithBootstrapButtons.fire({
+                //    title: "Deleted!",
+                //    text: "Your file has been deleted.",
+                //    icon: "success"
+                //});
+            } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+                && funcCancel != null && typeof (funcCancel) == 'function'
+            ) {
+                funcCancel();
+                //swalWithBootstrapButtons.fire({
+                //    title: "Cancelled",
+                //    text: "Your imaginary file is safe :)",
+                //    icon: "error"
+                //});
+            }
+        });
+    }
 }
 
 /**

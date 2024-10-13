@@ -12,7 +12,7 @@
             overflow: hidden !important;
         }
     </style>
-    <link rel="stylesheet/scss" type="text/css" href="~/Areas/Admin/scss/scssProduct.scss">
+    <link href="~/Areas/Admin/Css/cssProduct.css" rel="stylesheet" />
 }
 
 
@@ -58,23 +58,23 @@
 
             <div class="card-tools" id="card-taskbar">
                 @*<a href="/admin/products/add" class="btn btn-primary">Thêm mới</a>
-                <a href="#" class="btn btn-danger" id="BtnDeleteAll">Xóa</a>*@
+                    <a href="#" class="btn btn-danger" id="BtnDeleteAll">Xóa</a>*@
             </div>
         </div>
         <div class="card-body">
             @*<div class="row">
-                <div class="col-6">
-                    @using (Html.BeginForm("index", "News", FormMethod.Get, new { }))
-                    {
-                        <div class="input-group input-group-sm">
-                            @Html.TextBox("Searchtext", new { @class = "form-control" })
-                            <span class="input-group-append">
-                                <button type="submit" class="btn btn-info btn-flat">Tìm kiếm</button>
-                            </span>
-                        </div>
-                    }
-                </div>
-            </div>*@
+                    <div class="col-6">
+                        @using (Html.BeginForm("index", "News", FormMethod.Get, new { }))
+                        {
+                            <div class="input-group input-group-sm">
+                                @Html.TextBox("Searchtext", new { @class = "form-control" })
+                                <span class="input-group-append">
+                                    <button type="submit" class="btn btn-info btn-flat">Tìm kiếm</button>
+                                </span>
+                            </div>
+                        }
+                    </div>
+                </div>*@
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -102,32 +102,36 @@
                             var strCheck = item.IsActive ? "<i class='fa fa-check text-success'></i>" : "<i class='fas fa-times text-danger'></i>";
                             var strCheckHome = item.IsHome ? "<i class='fa fa-check text-success'></i>" : "<i class='fas fa-times text-danger'></i>";
                             var strCheckSale = item.IsSale ? "<i class='fa fa-check text-success'></i>" : "<i class='fas fa-times text-danger'></i>";
-                            var strImg = "";
                             var CheckImage = item.ProductImage.FirstOrDefault(x => x.IsDefault);
-                            if (CheckImage != null)
-                            {
-                                strImg = CheckImage.Image;
-                            }
                             <tr id="trow_@item.Id">
-                                <td><input type="checkbox" class="cbkItem" value="@item.Id" /></td>
-                                <td>@i</td>
-                                <td class="imgproduct" data-id="@item.Id"><img src="@strImg" width="50" /></td>
-                                <td>@item.Title</td>
-                                <td>@item.ProductCategory.Title</td>
-                                <td>@item.Quantity</td>
-                                <td>@WebBanHangOnline.Common.Applications.Instance.FormatNumber(item.Price, 0)</td>
-                                <td>@item.CreatedDate.Value.ToString("dd/MM/yyyy")</td>
-                                <td class="text-center">
+                                <td class="align-middle"><input type="checkbox" class="cbkItem" value="@item.Id" /></td>
+                                <td class="align-middle">@i</td>
+                                <td class="imgproduct align-middle" data-id="@item.Id">
+                                    @if (CheckImage != null)
+                                    {
+                                        <img src="@CheckImage.Image" width="50" />
+                                    }
+                                    else
+                                    {
+                                        <input type="button" value="..." />
+                                    }
+                                </td>
+                                <td class="align-middle">@item.Title</td>
+                                <td class="align-middle">@item.ProductCategory.Title</td>
+                                <td class="align-middle">@item.Quantity</td>
+                                <td class="align-middle">@WebBanHangOnline.Common.Applications.Instance.FormatNumber(item.Price, 0)</td>
+                                <td class="align-middle">@item.CreatedDate.Value.ToString("dd/MM/yyyy")</td>
+                                <td class="text-center align-middle">
                                     @*<a href='#' data-id="@item.Id" class="btnHome">@Html.Raw(strCheckHome)</a>*@
-                                    <input type="checkbox" data-id="@item.Id" class="btnHome" @(item.IsHome ? "checked" : "" ) />
+                                    <input type="checkbox" data-id="@item.Id" class="btnHome" @(item.IsHome ? "checked" : "" ) disabled/>
                                 </td>
-                                <td class="text-center">
-                                    <a href='#' data-id="@item.Id" class="btnSale">@*@Html.Raw(strCheckSale)*@</a>
-                                    <input type="checkbox" data-id="@item.Id" class="btnSale" @(item.IsSale ? "checked" : "" ) />
+                                <td class="text-center align-middle">
+                                    @*<a href='#' data-id="@item.Id" class="btnSale">@Html.Raw(strCheckSale)</a>*@
+                                    <input type="checkbox" data-id="@item.Id" class="btnSale" @(item.IsSale ? "checked" : "" ) disabled/>
                                 </td>
-                                <td class="text-center">
+                                <td class="text-center align-middle">
                                     @*<a href='#' data-id="@item.Id" class="btnActive">@Html.Raw(strCheck)</a>*@
-                                    <input type="checkbox" data-id="@item.Id" class="btnActive" @(item.IsActive ? "checked" : "" ) />
+                                    <input type="checkbox" data-id="@item.Id" class="btnActive" @(item.IsActive ? "checked" : "" ) disabled/>
                                 </td>
                                 <td class="text-right py-0 align-middle">
                                     <div class="btn-group btn-group-sm" style="gap:3px;">
@@ -167,6 +171,6 @@
 </section>
 <!-- /.content -->
 @section scripts{
-    <script src="~/Areas/Admin/Scripts/jsProduct.js"></script>
+    <script src="~/Areas/Admin/Scripts/Product/index.js"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
 }

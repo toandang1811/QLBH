@@ -41,17 +41,17 @@
 <section class="content">
 
     <!-- Default box -->
-    <div class="card">
+    <div class="card" id="card-action">
         <div class="card-header">
             <h3 class="card-title">Danh sách @ViewBag.Title</h3>
 
-            <div class="card-tools">
-                <a href="/admin/ProductCategory/add" class="btn btn-primary">Thêm mới</a>
-                <a href="#" class="btn btn-danger" id="BtnDeleteAll">Xóa</a>
+            <div class="card-tools" id="card-taskbar">
+                @*<a href="/admin/ProductCategory/add" class="btn btn-primary">Thêm mới</a>
+                    <a href="#" class="btn btn-danger" id="BtnDeleteAll">Xóa</a>*@
             </div>
         </div>
         <div class="card-body">
-          
+
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -67,7 +67,7 @@
                 <tbody>
                     @if (Model != null && Model.Any())
                     {
-                        var i =  1;
+                        var i = 1;
                         foreach (var item in Model)
                         {
                             //var strCheck = item.IsActive ? "<i class='fa fa-check text-success'></i>" : "<i class='fas fa-times text-danger'></i>";
@@ -77,8 +77,8 @@
                                 <td>@item.Title</td>
                                 <td>@item.CreatedDate.Value.ToString("dd/MM/yyyy")</td>
                                 @*<td class="text-center">
-                                    <a href='#' data-id="@item.Id" class="btnActive">@Html.Raw(strCheck)</a>
-                                </td>*@
+                                        <a href='#' data-id="@item.Id" class="btnActive">@Html.Raw(strCheck)</a>
+                                    </td>*@
                                 <td>
                                     <a href="/admin/productcategory/edit/@item.Id" class="btn btn-sm btn-primary">Sửa</a>
                                     <a href="#" data-id="@item.Id" class="btn btn-sm btn-danger btnDelete">Xóa</a>
@@ -96,7 +96,7 @@
                 </tbody>
             </table>
 
-           
+
 
         </div>
         <!-- /.card-body -->
@@ -111,6 +111,7 @@
 <!-- /.content -->
 
 @section scripts{
+    <script src="~/Areas/Admin/Scripts/ProductCategory/index.js"></script>
     <script>
         $(document).ready(function () {
             $('body').on('click', '#BtnDeleteAll', function (e) {

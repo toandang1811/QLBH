@@ -12,10 +12,14 @@ body {
     margin: 0;
 }
 
+.gallery {
+    gap: 15px;
+}
+
 .gallery .close {
     position: absolute;
-    top: 9px;
-    right: 15px;
+    top: -5px;
+    right: 0px;
     background-image: none;
     background-position-x: initial;
     background-position-y: initial;
@@ -53,6 +57,10 @@ body {
 
 .gallery .close:hover {
     cursor: pointer;
+}
+
+.gallery .close i {
+    font-size: 17px;
 }
 
 .gallery .line-img {

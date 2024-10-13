@@ -50,10 +50,11 @@
         <div class="card-header">
             <h3 class="card-title">Thông tin thêm mới Sản phẩm</h3>
         </div>
+        <div class="card-tools" id="card-taskbar"></div>
         <div class="card-body">
             <div class="row">
                 <div class="col-md-12">
-                    @using (Html.BeginForm("Add", "Products", FormMethod.Post, new { }))
+                    @using (Html.BeginForm("Add", "Products", FormMethod.Post, new { @id = "form-add-product" }))
                     {
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true)
@@ -225,7 +226,7 @@
                             <!-- /.tab-content -->
                         </div><!-- /.card-body -->
                         <div class="form-group">
-                           <button type="submit" class="btn btn-success">Thêm mới</button>
+                           <button type="submit" class="btn btn-success" style="display: none"></button>
                         </div>
                     </div> <!-- /.card -->
                     }
