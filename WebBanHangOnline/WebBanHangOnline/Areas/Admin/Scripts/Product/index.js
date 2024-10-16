@@ -3,11 +3,11 @@
         [
             {
                 type: 'add',
-                action: actionToolBar.ActionAdd
+                action: actionScreen.ActionAdd
             },
             {
                 type: 'delete',
-                action: actionToolBar.ActionDelete
+                action: actionScreen.ActionDelete
             }
             /*'add', 'delete'*/
         ],
@@ -83,23 +83,24 @@
     });
     $('body').on('click', '.btnDelete', function () {
         var id = $(this).data("id");
-        var conf = confirm('Bạn có muốn xóa bản ghi này không?');
-        if (conf === true) {
-            $.ajax({
-                url: '/admin/Products/delete',
-                type: 'POST',
-                data: { id: id },
-                success: function (rs) {
-                    if (rs.success) {
-                        $('#trow_' + id).remove();
-                    }
-                }
-            });
-        }
+        actionScreen.deleteItem(id);
+        //var conf = confirm('Bạn có muốn xóa bản ghi này không?');
+        //if (conf === true) {
+        //    $.ajax({
+        //        url: '/admin/Products/delete',
+        //        type: 'POST',
+        //        data: { id: id },
+        //        success: function (rs) {
+        //            if (rs.success) {
+        //                $('#trow_' + id).remove();
+        //            }
+        //        }
+        //    });
+        //}
     });
 });
 
-actionToolBar = new function () {
+actionScreen = new function () {
     this.ActionAdd = function () {
         window.open('/admin/products/add', '_self');
     }
@@ -136,5 +137,30 @@ actionToolBar = new function () {
                 });
             }
         }
+    }
+
+    this.deleteItem = function (id) {
+        _common.ShowConfirm("Thông báo", "Bạn có chắc chắn muốn xóa?",
+            function () {
+                _common.StartLoading();
+                _common.PostWithJsonData("/admin/Products/delete", { id: id }, 'application/json',
+                    function (res) {
+                        if (res) {
+                            if (res.IsError) {
+                                _common.ShowMessageBoxError("Thông báo", "Đã xảy ra lỗi trong quá trình xử lý!\nError: " + res.MessageError);
+                            }
+                            else if (res.Data) {
+                                $('#trow_' + id).remove();
+                                _common.ShowToastSuccess("Xóa thành công.");
+                            }
+                        }
+                    },
+                    function (xhr, status, error) {
+                        _common.ShowMessageBoxError("Thông báo", "Đã xảy ra lỗi trong quá trình xử lý!\nError: " + error);
+                    }
+                );
+                _common.StopLoading();
+            }
+        );
     }
 }
