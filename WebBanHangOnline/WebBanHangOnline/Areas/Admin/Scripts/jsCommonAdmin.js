@@ -2,36 +2,43 @@
     'add': {
         icon: "fas fa-plus",
         label: "Thêm mới",
+        id : "add-btn",
         action: function () { alert("Thêm mới được nhấn!"); }
     },
     'edit': {
         icon: "fas fa-edit",
         label: "Chỉnh sửa",
+        id: "edit-btn",
         action: function () { alert("Chỉnh sửa được nhấn!"); }
     },
     'delete': {
         icon: "fas fa-trash",
         label: "Xóa",
+        id: "delete-btn",
         action: function () { alert("Xóa được nhấn!"); }
     },
     'save': {
         icon: "fas fa-save",
         label: "Lưu",
+        id: "save-btn",
         action: function () { alert("Lưu được nhấn!"); }
     },
     'import': {
         icon: "fas fa-file-import",
         label: "Import",
+        id: "import-btn",
         action: function () { alert("Import được nhấn!"); }
     },
     'export': {
         icon: "fas fa-file-export",
         label: "Export",
+        id: "export-btn",
         action: function () { alert("Export được nhấn!"); }
     },
     'undo': {
         icon: "fas fa-undo",
         label: "Undo",
+        id: "undo-btn",
         action: function () { alert("Hoàn tác"); }
     }
 };
@@ -56,7 +63,7 @@ _common = new function () {
             }
 
             if (buttonTypes[buttonType]) {
-                var buttonElement = $(`<a href="javascript:void(0);" class="taskbar-button" id="${buttonType}-btn" title="${buttonTypes[buttonType].label}">
+                var buttonElement = $(`<a href="javascript:void(0);" class="taskbar-button" id="${buttonTypes[buttonType].id}" title="${buttonTypes[buttonType].label}">
                                                 <i class="${buttonTypes[buttonType].icon}"></i>
                                             </a>`);
 
@@ -69,14 +76,25 @@ _common = new function () {
         $(`#${containerId}`).append(taskbar);
     }
 
+    this.disableButton = function (buttons) {
+        Object.keys(buttonTypes).forEach(function (key) {
+            $(`#${buttonTypes[key].id}`).attr("aria-disabled", false);
+        });
+        buttons.forEach(function (btnType) {
+            if (buttonTypes.hasOwnProperty(btnType)) {
+                $(`#${buttonTypes[btnType].id}`).attr("aria-disabled", true);
+            }
+        });
+    }
+
     this.PostWithJsonData = function (url, data, contentType, successFunc, errorFunc) {
         $.ajax({
             type: 'POST',
             url: url,
             contentType: contentType,
             data: data,
-            contentType: false,
-            processData: false,
+            //contentType: false,
+            //processData: false,
             success: function (res) {
                 successFunc(res);
             },
@@ -87,7 +105,7 @@ _common = new function () {
         });
     }
 
-    this.PostWithFormData = function (url, data, successFunc, errorFunc) {
+    this.PostWithFormData = function (url, data, successFunc, errorFunc = null) {
         $.ajax({
             type: 'POST',
             url: url,
@@ -99,7 +117,8 @@ _common = new function () {
             },
             error: function (xhr, status, error) {
                 console.error("Error: ", xhr.responseText);
-                errorFunc(xhr, status, error);
+                if (errorFunc != null && typeof (errorFunc) == 'function')
+                    errorFunc(xhr, status, error);
             }
         });
     }
@@ -121,11 +140,31 @@ _common = new function () {
         }
     }
 
+    /**
+     * Hiển thị message box thông báo lỗi
+     * @param {any} title
+     * @param {any} content
+     */
+    this.ShowMessageBoxError = function (title, content) {
+        Swal.fire({
+            title: title,
+            text: content,
+            icon: "error"
+        });
+    }
+
+    /**
+     * Hiển thị message box xác nhận hoặc hủy
+     * @param {any} title Tiêu đề box
+     * @param {any} content Nội dung message
+     * @param {any} funcOk Hàm xử lý nếu chọn Xác nhận
+     * @param {any} funcCancel Hàm xử lý nếu chọn hủy
+     */
     this.ShowConfirm = function (title, content, funcOk, funcCancel = null) {
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
-                confirmButton: "btn btn-success",
-                cancelButton: "btn btn-danger"
+                confirmButton: "btn btn-confirm",
+                cancelButton: "btn btn-confirm"
             },
             buttonsStyling: false
         });
@@ -140,23 +179,67 @@ _common = new function () {
         }).then((result) => {
             if (result.isConfirmed) {
                 funcOk();
-                //swalWithBootstrapButtons.fire({
-                //    title: "Deleted!",
-                //    text: "Your file has been deleted.",
-                //    icon: "success"
-                //});
             } else if (
                 /* Read more about handling dismissals below */
                 result.dismiss === Swal.DismissReason.cancel
                 && funcCancel != null && typeof (funcCancel) == 'function'
             ) {
                 funcCancel();
-                //swalWithBootstrapButtons.fire({
-                //    title: "Cancelled",
-                //    text: "Your imaginary file is safe :)",
-                //    icon: "error"
-                //});
             }
+        });
+    }
+
+    this.ShowToastSuccess = function (content, timer = 3000) {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: timer,
+            timerProgressBar: false,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+        Toast.fire({
+            icon: "success",
+            title: content
+        });
+    }
+
+    this.ShowToastError = function (content, timer = 3000) {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: timer,
+            timerProgressBar: false,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+        Toast.fire({
+            icon: "error",
+            title: content
+        });
+    }
+
+    this.ShowToastInfo = function (content, timer = 3000) {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: timer,
+            timerProgressBar: false,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+        Toast.fire({
+            icon: "info",
+            title: content
         });
     }
 }

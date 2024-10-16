@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebBanHangOnline.Common;
+using WebBanHangOnline.Http.Response;
 using WebBanHangOnline.Models;
 using WebBanHangOnline.Models.EF;
 
@@ -37,33 +39,44 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Add(Product model, List<string> Images, List<int> rDefault)
+        public ActionResult Add(Product model, List<HttpPostedFileBase> Images, List<int> rDefault)
         {
             if (ModelState.IsValid)
             {
                 if (Images != null && Images.Count > 0)
                 {
-                    for (int i = 0; i < Images.Count; i++)
+                    int i = 0;
+                    foreach (var file in Images)
                     {
-                        if (i + 1 == rDefault[0])
+                        if (file != null && file.ContentLength > 0)
                         {
-                            model.Image = Images[i];
-                            model.ProductImage.Add(new ProductImage
+                            var uploadResult = Applications.Instance.UploadImageCloudinary("ProductImages", file.FileName, file.InputStream);
+                            string uploadedImageUrl = uploadResult.SecureUrl.ToString();
+                            if (uploadResult.StatusCode == System.Net.HttpStatusCode.OK && !string.IsNullOrEmpty(uploadedImageUrl))
                             {
-                                ProductId = model.Id,
-                                Image = Images[i],
-                                IsDefault = true
-                            });
+                                if (i + 1 == rDefault[0])
+                                {
+                                    db.ProductImages.Add(new ProductImage
+                                    {
+                                        ProductId = model.Id,
+                                        Image = uploadedImageUrl,
+                                        IsDefault = true,
+                                        PublicId = uploadResult.PublicId
+                                    });
+                                }
+                                else
+                                {
+                                    db.ProductImages.Add(new ProductImage
+                                    {
+                                        ProductId = model.Id,
+                                        Image = uploadedImageUrl,
+                                        IsDefault = false,
+                                        PublicId = uploadResult.PublicId
+                                    });
+                                }
+                            }
                         }
-                        else
-                        {
-                            model.ProductImage.Add(new ProductImage
-                            {
-                                ProductId = model.Id,
-                                Image = Images[i],
-                                IsDefault = false
-                            });
-                        }
+                        i++;
                     }
                 }
                 model.CreatedDate = DateTime.Now;
@@ -126,10 +139,10 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 }
                 db.Products.Remove(item);
                 db.SaveChanges();
-                return Json(new { success = true });
+                return Json(new BaseResponse<bool>() { IsError = false, MessageError = string.Empty, Data = true });
             }
 
-            return Json(new { success = false });
+            return Json(new BaseResponse<bool>() { IsError = true, MessageError = "Không tìm thấy sản phẩm.", Data = false });
         }
 
         [HttpPost]

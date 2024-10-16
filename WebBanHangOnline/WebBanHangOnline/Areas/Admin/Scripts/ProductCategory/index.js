@@ -42,29 +42,6 @@
             });
         }
     });
-
-    $('body').on('click', '.btnActive', function (e) {
-        e.preventDefault();
-        var btn = $(this);
-        var id = btn.data("id");
-        $.ajax({
-            url: '/admin/news/IsActive',
-            type: 'POST',
-            data: { id: id },
-            success: function (rs) {
-                if (rs.success) {
-                    if (rs.isAcive) {
-                        btn.html("<i class='fa fa-check text-success'></i>");
-                        //$(this).find("i").removeClass("fas fa-times text-danger")
-                        //$(this).find("i").addClass("fa fa-check text-success");
-                    } else {
-                        btn.html("<i class='fas fa-times text-danger'></i>");
-                    }
-                }
-
-            }
-        });
-    });
 });
 
 actionScreen = new function () {

@@ -74,7 +74,7 @@ actionScreen = new function () {
      * Load mặc định
      */
     this.loadDefault = function () {
-        $('#undo-btn').attr("aria-disabled", true);
+        _common.disableButton(['undo']);
     }
 
     /**
@@ -126,12 +126,13 @@ actionScreen = new function () {
                                 </div>`;
                                     $('#container-product-image').append(element);
                                 }
+                                _common.ShowToastSuccess("Lưu thành công");
                             }
                         }
-
                         _common.StopLoading();
                     },
                     function (xhr, status, error) {
+                        _common.ShowMessageBoxError("Thông báo", "Đã xảy ra lỗi trong quá trình xử lý.\nError: " + error);
                         _common.StopLoading();
                     }
                 );

@@ -18,15 +18,6 @@ namespace WebBanHangOnline.Common
         {
             get 
             {
-                if (_cloudinary == null)
-                {
-                    var account = new Account(
-                        _Environment.CLOUD_NAME,
-                        _Environment.API_KEY,
-                        _Environment.API_SECRET
-                    );
-                    _cloudinary = new Cloudinary(account);
-                }
                 if (instance == null)
                 {
                     instance = new Applications();
@@ -43,7 +34,7 @@ namespace WebBanHangOnline.Common
         #endregion
 
         
-        private static Cloudinary _cloudinary;
+        private Cloudinary _cloudinary;
 
         /// <summary>
         /// Send Mail to customer
@@ -99,6 +90,15 @@ namespace WebBanHangOnline.Common
         /// <returns></returns>
         public ImageUploadResult UploadImageCloudinary(string folder, string fileName, Stream inputStream)
         {
+            if (_cloudinary == null)
+            {
+                var account = new Account(
+                    _Environment.CLOUD_NAME,
+                    _Environment.API_KEY,
+                    _Environment.API_SECRET
+                );
+                _cloudinary = new Cloudinary(account);
+            }
             var uploadParams = new ImageUploadParams()
             {
                 File = new FileDescription(fileName, inputStream),
@@ -117,6 +117,15 @@ namespace WebBanHangOnline.Common
         /// <returns></returns>
         public bool DeleteImageCloudinary(string publicId)
         {
+            if (_cloudinary == null)
+            {
+                var account = new Account(
+                    _Environment.CLOUD_NAME,
+                    _Environment.API_KEY,
+                    _Environment.API_SECRET
+                );
+                _cloudinary = new Cloudinary(account);
+            }
             var deleteParams = new DeletionParams(publicId);
             var deleteResult = _cloudinary.Destroy(deleteParams);
 
