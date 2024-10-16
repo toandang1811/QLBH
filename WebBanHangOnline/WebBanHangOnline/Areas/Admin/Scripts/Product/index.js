@@ -107,7 +107,7 @@ actionToolBar = new function () {
     this.ActionDelete = function () {
         var str = "";
         var checkbox = $(this).parents('.card').find('tr td input:checkbox');
-        var i = 0;
+        var i = 0; 
         checkbox.each(function () {
             if (this.checked) {
                 var _id = $(this).val();
