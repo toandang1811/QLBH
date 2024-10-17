@@ -60,11 +60,11 @@ namespace WebBanHangOnline.Common
 
                     smtp.UseDefaultCredentials = false;
                     smtp.Credentials = new NetworkCredential() { 
-                        UserName = _Environment.Email,
-                        Password= _Environment.PassWordEmail
+                        UserName = _Environment.EMAIL,
+                        Password= _Environment.PASSWORDEMAIL
                     };
                 }
-                MailAddress fromAddress = new MailAddress(_Environment.Email, name);
+                MailAddress fromAddress = new MailAddress(_Environment.EMAIL, name);
                 message.From = fromAddress;
                 message.To.Add(toMail);
                 message.Subject = subject;
@@ -130,6 +130,31 @@ namespace WebBanHangOnline.Common
             var deleteResult = _cloudinary.Destroy(deleteParams);
 
             if (deleteResult.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool DeleteImageCloudinary(List<string> publicIds)
+        {
+            if (_cloudinary == null)
+            {
+                var account = new Account(
+                    _Environment.CLOUD_NAME,
+                    _Environment.API_KEY,
+                    _Environment.API_SECRET
+                );
+                _cloudinary = new Cloudinary(account);
+            }
+            var deleteParams = new DelResParams()
+            {
+                PublicIds = publicIds,
+                Type = "upload",
+                ResourceType = ResourceType.Image
+            };
+            var result = _cloudinary.DeleteResources(deleteParams);
+            if (result.StatusCode == System.Net.HttpStatusCode.OK) 
             {
                 return true;
             }

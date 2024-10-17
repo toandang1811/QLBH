@@ -45,6 +45,7 @@ namespace WebBanHangOnline.Models
         public DbSet<Subscribe> Subscribes { get; set; }
         public DbSet<Permission> Permissions { get; set; }
         public DbSet<UserPermission> UserPermissions { get; set; }
+        public DbSet<Employee> Employees { get; set; }
 
         public static ApplicationDbContext Create()
         {

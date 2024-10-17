@@ -13,7 +13,7 @@ namespace WebBanHangOnline.Models.EF
         [Key, Column(Order = 0)]
         public int UserId { get; set; }
         [Key, Column(Order = 1)]
-        public int PermissionId { get; set; }
+        public string PermissionId { get; set; }
         public virtual ApplicationUser User { get; set; }
         public virtual Permission Permission { get; set; }
     }

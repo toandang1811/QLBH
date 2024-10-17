@@ -274,6 +274,7 @@
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\NewsController.cs" />
     <Compile Include="Areas\Admin\Controllers\OrderController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PermissionsController.cs" />
     <Compile Include="Areas\Admin\Controllers\PostsController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductCategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductImageController.cs" />
@@ -319,10 +320,13 @@
     <Compile Include="Models\EF\Adv.cs" />
     <Compile Include="Models\EF\Category.cs" />
     <Compile Include="Models\EF\Contact.cs" />
+    <Compile Include="Models\EF\Customer.cs" />
+    <Compile Include="Models\EF\Employee.cs" />
     <Compile Include="Models\EF\News.cs" />
     <Compile Include="Models\EF\Order.cs" />
     <Compile Include="Models\EF\OrderCode.cs" />
     <Compile Include="Models\EF\OrderDetail.cs" />
+    <Compile Include="Models\EF\Permission.cs" />
     <Compile Include="Models\EF\Posts.cs" />
     <Compile Include="Models\EF\Product.cs" />
     <Compile Include="Models\EF\ProductCategory.cs" />
@@ -331,6 +335,7 @@
     <Compile Include="Models\EF\SystemSetting.cs" />
     <Compile Include="Models\EF\ThongKe.cs" />
     <Compile Include="Models\EF\IdentityModels.cs" />
+    <Compile Include="Models\EF\UserPermission.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\OrderViewModel.cs" />
     <Compile Include="Models\Payments\VnPayLibrary.cs" />
@@ -3396,10 +3401,12 @@
     <Content Include="Areas\Admin\Scripts\jsCommonAdmin.js" />
     <Content Include="Areas\Admin\Scripts\jsNews.js" />
     <Content Include="Areas\Admin\Scripts\jsPost.js" />
+    <Content Include="Areas\Admin\Scripts\Product\add.js" />
     <Content Include="Areas\Admin\Scripts\Product\index.js" />
     <Content Include="Areas\Admin\Scripts\ProductCategory\index.js" />
     <Content Include="Areas\Admin\Scripts\ProductImage\index.js" />
     <Content Include="Areas\Admin\Scripts\jsProfile.js" />
+    <Content Include="Areas\Admin\Scripts\SettingSystem\index.js" />
     <Content Include="Content\assets\dist\css\adminlte.css" />
     <Content Include="Content\assets\dist\css\adminlte.min.css" />
     <Content Include="Content\assets\dist\css\alt\adminlte.components.css" />
@@ -5883,6 +5890,7 @@
     <Content Include="Content\clients\plugins\summernote\summernote.js.map" />
     <Content Include="Content\clients\plugins\summernote\summernote.min.js.map" />
     <Content Include="Content\clients\plugins\toastr\toastr.js.map" />
+    <Content Include="Areas\Admin\Views\Permissions\Index.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jsCommon.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />

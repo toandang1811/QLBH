@@ -126,17 +126,17 @@ _common = new function () {
     /**
      * sử dụng cho các màn hình thao tác và nội dung xử lý bên trong thẻ có id là: card-action
      */
-    this.StartLoading = function () {
-        if ($('#card-action').find('.overlay').length == 0) {
-            $('#card-action').append(`<div class="overlay">
+    this.StartLoading = function (id) {
+        if ($('#' + id).find('.overlay').length == 0) {
+            $('#' + id).append(`<div class="overlay">
                                   <i class="fas fa-2x fa-sync-alt fa-spin"></i>
                                 </div>`);
         }
     }
 
-    this.StopLoading = function () {
-        if ($('#card-action').find('.overlay').length != 0) {
-            $('#card-action').find('.overlay').remove();
+    this.StopLoading = function (id) {
+        if ($('#' + id).find('.overlay').length != 0) {
+            $('#' + id).find('.overlay').remove();
         }
     }
 

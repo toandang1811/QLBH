@@ -110,7 +110,7 @@ actionScreen = new function () {
                 }
                 formData.append('productId', Number($('#product-id').val()));
 
-                _common.StartLoading();
+                _common.StartLoading("card-action");
                 _common.PostWithFormData("/ProductImage/Update", formData,
                     function (res) {
                         if (res && !res.IsError) {
@@ -129,11 +129,11 @@ actionScreen = new function () {
                                 _common.ShowToastSuccess("Lưu thành công");
                             }
                         }
-                        _common.StopLoading();
+                        _common.StopLoading("card-action");
                     },
                     function (xhr, status, error) {
                         _common.ShowMessageBoxError("Thông báo", "Đã xảy ra lỗi trong quá trình xử lý.\nError: " + error);
-                        _common.StopLoading();
+                        _common.StopLoading("card-action");
                     }
                 );
             }

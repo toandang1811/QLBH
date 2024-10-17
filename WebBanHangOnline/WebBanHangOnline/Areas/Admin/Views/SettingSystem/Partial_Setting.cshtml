@@ -6,9 +6,9 @@
     OnBegin = "OnBegin",
     OnSuccess = "OnSuccess",
     OnFailure = "OnFailure"
-}))
+}, htmlAttributes: new { @id = "form-save-settingsystem" }))
 {
-    <script>
+    @*<script>
         function OnBegin() {
             $('#load_page').html('Đang lưu...');
         }
@@ -18,7 +18,7 @@
         function OnFailure(rs) {
 
         }
-    </script>
+    </script>*@
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
     <div class="row">
@@ -75,11 +75,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-12">
-            <div>
-                <button type="submit" class="btn btn-success">Lưu</button>
             </div>
         </div>
     </div>

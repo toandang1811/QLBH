@@ -10,8 +10,10 @@ namespace WebBanHangOnline.Models.EF
     [Table("tb_Permissions")]
     public class Permission
     {
-        [Key]
-        public int PermissionId { get; set; }
+        [Key, Column(Order = 1)]
+        public string PermissionId { get; set; }
+        [Key, Column(Order = 0)]
+        public string Type { get; set; }
 
         public string PermissionName { get; set; }
     }
