@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Web;
+using WebBanHangOnline.Models;
 
 namespace WebBanHangOnline.Common
 {
@@ -200,6 +201,33 @@ namespace WebBanHangOnline.Common
                        || value is float
                        || value is double
                        || value is decimal;
+        }
+
+        public bool HasPermission(string moduleId, string permissionId, string userId)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                var user = db.Users.Find(userId);
+                if (user != null && user.Roles.Any())
+                {
+                    foreach (var role in user.Roles)
+                    {
+                        if (RoleHasPermission(role.RoleId, permissionId))
+                        {
+                            return true;
+                        }
+                    }
+                }
+                return db.UserPermissions.Any(x => x.UserId == userId && x.PermissionId == permissionId && x.ModuleId == moduleId);
+            }
+        }
+
+        public bool RoleHasPermission(string roleId, string permissionId)
+        {
+            using (var db = new ApplicationDbContext())
+            {
+                return db.RolePermissions.Any(x => x.RoleId == roleId && x.PermissionId == permissionId);
+            }
         }
     }
 }

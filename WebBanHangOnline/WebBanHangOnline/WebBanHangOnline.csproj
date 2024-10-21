@@ -312,17 +312,9 @@
     <Compile Include="Migrations\202410090206239_addcolumn.Designer.cs">
       <DependentUpon>202410090206239_addcolumn.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202410210930557_changeDesignDb.cs" />
-    <Compile Include="Migrations\202410210930557_changeDesignDb.Designer.cs">
-      <DependentUpon>202410210930557_changeDesignDb.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202410210935214_add_col_ParentId.cs" />
-    <Compile Include="Migrations\202410210935214_add_col_ParentId.Designer.cs">
-      <DependentUpon>202410210935214_add_col_ParentId.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202410210944059_add_col_Url_to_Module.cs" />
-    <Compile Include="Migrations\202410210944059_add_col_Url_to_Module.Designer.cs">
-      <DependentUpon>202410210944059_add_col_Url_to_Module.cs</DependentUpon>
+    <Compile Include="Migrations\202410211515523_updateDB.cs" />
+    <Compile Include="Migrations\202410211515523_updateDB.designer.cs">
+      <DependentUpon>202410211515523_updateDB.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -6045,14 +6037,8 @@
     <EmbeddedResource Include="Migrations\202410090206239_addcolumn.resx">
       <DependentUpon>202410090206239_addcolumn.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202410210930557_changeDesignDb.resx">
-      <DependentUpon>202410210930557_changeDesignDb.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202410210935214_add_col_ParentId.resx">
-      <DependentUpon>202410210935214_add_col_ParentId.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202410210944059_add_col_Url_to_Module.resx">
-      <DependentUpon>202410210944059_add_col_Url_to_Module.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202410211515523_updateDB.resx">
+      <DependentUpon>202410211515523_updateDB.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

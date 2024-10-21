@@ -17,7 +17,7 @@ namespace WebBanHangOnline.Models.EF
         public string RoleId { get; set; }
         [Key, Column(Order = 1)]
         public string PermissionId { get; set; }
-        [Key, Column(Order = 2)]
+        [Key, Column(Order = 1)]
         public string ModuleId { get; set; }
         public virtual IdentityUserRole Role { get; set; }
         public virtual Permission Permission { get; set; }

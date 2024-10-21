@@ -17,5 +17,10 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         {
             return View();
         }
+
+        public ActionResult PartialSideBar() 
+        {
+            return View();
+        }
     }
 }
