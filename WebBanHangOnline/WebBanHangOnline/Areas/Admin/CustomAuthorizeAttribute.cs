@@ -8,6 +8,12 @@ namespace WebBanHangOnline.Areas.Admin
 {
     public class CustomAuthorizeAttribute : AuthorizeAttribute
     {
+        private readonly string _permission;
+        public CustomAuthorizeAttribute(string roles = null, string permission = null)
+        {
+            Roles = roles; 
+            _permission = permission;
+        }
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
             if (!filterContext.HttpContext.User.Identity.IsAuthenticated)

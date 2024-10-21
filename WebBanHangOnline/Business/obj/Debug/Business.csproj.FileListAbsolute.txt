@@ -1,0 +1,7 @@
+C:\TOAN\QLBH\WebBanHangOnline\Business\obj\Debug\Business.csproj.AssemblyReference.cache
+C:\TOAN\QLBH\WebBanHangOnline\Business\obj\Debug\Business.csproj.CoreCompileInputs.cache
+C:\TOAN\QLBH\WebBanHangOnline\build\Business.dll
+C:\TOAN\QLBH\WebBanHangOnline\build\Business.pdb
+C:\TOAN\QLBH\WebBanHangOnline\Business\obj\Debug\Business.csproj.Up2Date
+C:\TOAN\QLBH\WebBanHangOnline\Business\obj\Debug\Business.dll
+C:\TOAN\QLBH\WebBanHangOnline\Business\obj\Debug\Business.pdb

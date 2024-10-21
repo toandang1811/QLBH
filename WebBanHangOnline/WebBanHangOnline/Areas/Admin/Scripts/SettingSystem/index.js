@@ -21,9 +21,10 @@ function OnBegin() {
 }
 function OnSuccess(rs) {
     _common.StopLoading('card-action');
+    _common.ShowToastSuccess("Lưu thành công.");
 }
 function OnFailure(rs) {
     _common.StopLoading('card-action');
-    _common.ShowMessageBoxError("Thông báo", "Đã xảy ra lỗi trong quá trình xử lý. \nError: " + rs.statusText);
+    _common.ShowMessageBoxError("Thông báo", "Đã xảy ra lỗi trong quá trình xử lý.");
     console.log(rs);
 }

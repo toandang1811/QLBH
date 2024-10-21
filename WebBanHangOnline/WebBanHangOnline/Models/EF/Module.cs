@@ -7,14 +7,15 @@ using System.Web;
 
 namespace WebBanHangOnline.Models.EF
 {
-    [Table("tb_Permissions")]
-    public class Permission
+    [Table("tb_Modules")]
+    public class Module
     {
         [Key]
-        public string PermissionId { get; set; }
         public string ModuleId { get; set; }
-        public string PermissionName { get; set; }
-        public virtual Module Module { get; set; }
-
+        public string ModuleName { get; set; }
+        public int IsActive { get; set; }
+        public int Orders {  get; set; }
+        public string ParentId { get; set; }
+        public string Url { get; set; }
     }
 }

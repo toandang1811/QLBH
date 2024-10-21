@@ -1,8 +1,8 @@
-C:\TOAN\QLBH\WebBanHangOnline\DataAccess\bin\Debug\DataAccess.dll
-C:\TOAN\QLBH\WebBanHangOnline\DataAccess\bin\Debug\DataAccess.pdb
+C:\TOAN\QLBH\WebBanHangOnline\build\DataAccess.dll
+C:\TOAN\QLBH\WebBanHangOnline\build\DataAccess.pdb
 C:\TOAN\QLBH\WebBanHangOnline\DataAccess\obj\Debug\DataAccess.csproj.AssemblyReference.cache
 C:\TOAN\QLBH\WebBanHangOnline\DataAccess\obj\Debug\DataAccess.csproj.CoreCompileInputs.cache
 C:\TOAN\QLBH\WebBanHangOnline\DataAccess\obj\Debug\DataAccess.dll
 C:\TOAN\QLBH\WebBanHangOnline\DataAccess\obj\Debug\DataAccess.pdb
-C:\TOAN\QLBH\WebBanHangOnline\build\DataAccess.dll
-C:\TOAN\QLBH\WebBanHangOnline\build\DataAccess.pdb
+C:\TOAN\QLBH\WebBanHangOnline\build\DataAccess.dll.config
+C:\TOAN\QLBH\WebBanHangOnline\DataAccess\obj\Debug\DataAccess.csproj.Up2Date

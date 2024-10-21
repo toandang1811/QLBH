@@ -190,17 +190,15 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         [CustomAuthorize(Roles = "Admin")]
         public ActionResult View(string UserName)
         {
-            var userRoles = _bl.GetAll(UserName);
             ViewBag.Role = new SelectList(db.Roles.ToList(), "Name", "Name");
-            return View(userRoles);
+            return View();
         }
 
         [AllowAnonymous]
         public ActionResult Profile()
         {
-            var userProfile = _bl.GetAll(User.Identity.Name);
             //ViewBag.State = UpdateStatus.
-            return View(userProfile);
+            return View();
         }
 
         [AllowAnonymous]

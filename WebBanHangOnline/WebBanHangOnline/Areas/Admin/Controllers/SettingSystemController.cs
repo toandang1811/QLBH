@@ -126,7 +126,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             }
             db.SaveChanges();
 
-            return View("Partial_Setting");
+            return View("Partial_Setting", db.SystemSettings.ToList());
         }
     }
 }

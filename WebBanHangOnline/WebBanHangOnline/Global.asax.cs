@@ -1,3 +1,4 @@
+using Business;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using WebBanHangOnline.Business;
 
 namespace WebBanHangOnline
 {
@@ -34,7 +36,8 @@ namespace WebBanHangOnline
             Application.UnLock();
             try
             {
-                var item = WebBanHangOnline.Models.Common.ThongKeTruyCap.ThongKe();
+                ThongKeBL _bl = new ThongKeBL();
+                var item = _bl.ThongKe();
                 if (item!=null)
                 {
                     Application["HomNay"] = long.Parse("0" + item.HomNay.ToString("#,###"));

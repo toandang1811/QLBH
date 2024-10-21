@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace DataAccess
+namespace WebBanHangOnline.DataAccess
 {
     public class BaseDAL
     {
-        private static string strConnect = ConfigurationManager.ConnectionStrings["DefaultConnection"].ToString();
+        private string strConnect = ConfigurationManager.ConnectionStrings["DefaultConnection"].ToString();
         private SqlConnection _connection;
-        protected SqlConnection _Connection
-        {
-            get
+        protected SqlConnection Connection 
+        { 
+            get 
             {
                 if (_connection == null)
                 {
@@ -25,16 +25,5 @@ namespace DataAccess
             }
             set { _connection = value; }
         }
-        internal DbTransaction Transaction { get; private set; }
-
-        public BaseDAL()
-        {
-        }
-
-        public BaseDAL(DbTransaction transaction)
-        {
-            Transaction = transaction;
-        }
-
     }
 }

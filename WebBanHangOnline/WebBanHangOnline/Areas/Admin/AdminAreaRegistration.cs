@@ -20,6 +20,13 @@ namespace WebBanHangOnline.Areas.Admin
                 new { action = "Index", id = UrlParameter.Optional },
                 namespaces: new[] { "WebBanHangOnline.Areas.Admin.Controllers" }
             );
+
+            context.MapRoute(
+                "admin_home",
+                "admin/",
+                new { controller = "home", action = "Index", id = UrlParameter.Optional },
+                namespaces: new[] { "WebBanHangOnline.Areas.Admin.Controllers" }
+            );
         }
     }
 }
