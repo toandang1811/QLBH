@@ -1,16 +1,19 @@
 ﻿
 
+using Dapper;
+using Entities;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+
 namespace WebBanHangOnline.DataAccess
 {
     public class UserRoleDAL : BaseDAL
     {
         #region ---- SQL query ----
-        private const string SQL_GetAllUserRole = @"
-                SELECT  u.ID, u.FullName, u.UserName, u.Avatar, u.Email, u.Phone, r.Id AS Role, r.Name AS RoleName 
-                FROM AspNetUsers u
-                LEFT JOIN AspNetUserRoles ur ON u.Id = ur.UserId
-                LEFT JOIN AspNetRoles r ON r.Id = ur.RoleId
-                WHERE u.UserName = @UserName";
+        private const string SQL_GetListUserRoleByUserId = @"
+                SELECT UserId, RoleId FROM AspNetUserRoles WHERE UserId = @UserId";
 
         private const string SQL_UpdateUser = @"
             UPDATE AspNetUsers 
@@ -19,5 +22,26 @@ namespace WebBanHangOnline.DataAccess
         ";
         #endregion ---- SQL query ----
         public UserRoleDAL() { }
+
+        public List<UserRole> GetListUserRoleByUserId(string userId)
+        {
+            var items = new List<UserRole>();
+            try
+            {
+                Connection.Open();
+                items = Connection.Query<UserRole>(SQL_GetListUserRoleByUserId, 
+                    new 
+                    {
+                        UserId = userId 
+                    },
+                    commandType: CommandType.Text).ToList();
+            }
+            catch (Exception ex) { }
+            finally
+            {
+                Connection.Close();
+            }
+            return items;
+        }
     }
 }

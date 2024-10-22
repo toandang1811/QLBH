@@ -52,6 +52,7 @@
     <Compile Include="BaseBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThongKeBL.cs" />
+    <Compile Include="UserBL.cs" />
     <Compile Include="UserRoleBL.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

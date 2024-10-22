@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entities;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -15,6 +16,9 @@ namespace WebBanHangOnline.Business
             _dal = new UserRoleDAL();
         }
 
-
+        public List<UserRole> GetListUserRoleByUserId(string userId)
+        {
+            return _dal.GetListUserRoleByUserId(userId);
+        }
     }
 }

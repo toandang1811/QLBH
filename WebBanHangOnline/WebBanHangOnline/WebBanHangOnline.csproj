@@ -312,9 +312,9 @@
     <Compile Include="Migrations\202410090206239_addcolumn.Designer.cs">
       <DependentUpon>202410090206239_addcolumn.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202410211515523_updateDB.cs" />
-    <Compile Include="Migrations\202410211515523_updateDB.designer.cs">
-      <DependentUpon>202410211515523_updateDB.cs</DependentUpon>
+    <Compile Include="Migrations\202410220850483_add_new_tbls.cs" />
+    <Compile Include="Migrations\202410220850483_add_new_tbls.Designer.cs">
+      <DependentUpon>202410220850483_add_new_tbls.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -347,6 +347,7 @@
     <Compile Include="Models\Payments\VnPayLibrary.cs" />
     <Compile Include="Models\SettingSystemViewModel.cs" />
     <Compile Include="Models\ShoppingCart.cs" />
+    <Compile Include="Models\SideBarViewModel.cs" />
     <Compile Include="Models\ThongKeViewModel.cs" />
     <Compile Include="Models\UserRoleViewModel.cs" />
     <Compile Include="Models\ViewModels\RevenueStatisticViewModel.cs" />
@@ -5897,6 +5898,7 @@
     <Content Include="Content\clients\plugins\summernote\summernote.min.js.map" />
     <Content Include="Content\clients\plugins\toastr\toastr.js.map" />
     <Content Include="Areas\Admin\Views\Permissions\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\PartialSideBar.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jsCommon.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -6037,8 +6039,8 @@
     <EmbeddedResource Include="Migrations\202410090206239_addcolumn.resx">
       <DependentUpon>202410090206239_addcolumn.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202410211515523_updateDB.resx">
-      <DependentUpon>202410211515523_updateDB.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202410220850483_add_new_tbls.resx">
+      <DependentUpon>202410220850483_add_new_tbls.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

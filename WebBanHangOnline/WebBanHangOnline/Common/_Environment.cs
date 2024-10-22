@@ -22,7 +22,6 @@ namespace WebBanHangOnline.Common
         public static string FullName { get; set; }
         public static string Email { get; set; }
         public static string Address { get; set; }
-        public static string Token { get; set; }
         public static string AvatarUrl { get; set; }
 
     }

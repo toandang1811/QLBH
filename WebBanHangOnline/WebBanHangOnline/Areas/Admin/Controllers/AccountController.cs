@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using Business;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using WebBanHangOnline.Business;
+using WebBanHangOnline.Common;
 using WebBanHangOnline.Models;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
@@ -114,7 +116,13 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                         AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
                         return View(model);
                     }
-
+                    var bl = new UserBL();
+                    var userInfo = bl.GetUserInfo(user.Id);
+                    _Environment.UserId = userInfo.UserId;
+                    _Environment.UserName = userInfo.UserName;
+                    _Environment.Email = userInfo.Email;
+                    _Environment.FullName = userInfo.FullName;
+                    _Environment.Email = userInfo.Email;
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");

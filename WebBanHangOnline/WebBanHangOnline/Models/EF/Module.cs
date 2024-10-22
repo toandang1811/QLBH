@@ -13,9 +13,11 @@ namespace WebBanHangOnline.Models.EF
         [Key]
         public string ModuleId { get; set; }
         public string ModuleName { get; set; }
-        public int IsActive { get; set; }
+        public bool IsActive { get; set; }
         public int Orders {  get; set; }
         public string ParentId { get; set; }
         public string Url { get; set; }
+        public string Icon { get; set; }
+        public bool IsSideBar { get; set; }
     }
 }

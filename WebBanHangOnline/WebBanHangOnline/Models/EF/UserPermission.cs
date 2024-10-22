@@ -18,6 +18,5 @@ namespace WebBanHangOnline.Models.EF
         public string ModuleId { get; set; }
         public virtual ApplicationUser User { get; set; }
         public virtual Permission Permission { get; set; }
-        public virtual Module Module { get; set; }
     }
 }

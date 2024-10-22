@@ -1,7 +1,11 @@
-using Business;
+﻿using Business;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.Collections.Generic;
+using System.EnterpriseServices;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -14,11 +18,12 @@ namespace WebBanHangOnline
     {
         protected void Application_Start()
         {
+            
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
+            UpdateAllUsersSecurityStamp();
             Application["HomNay"] = 0;
             Application["HomQua"] = 0;
             Application["TuanNay"] = 0;
@@ -58,6 +63,22 @@ namespace WebBanHangOnline
             Application.Lock();
             Application["visitors_online"] = Convert.ToUInt32(Application["visitors_online"]) - 1;
             Application.UnLock();
+        }
+
+        private void UpdateAllUsersSecurityStamp()
+        {
+            // Lấy UserManager từ OWIN context
+            var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
+            if (userManager != null)
+            {
+                var users = userManager.Users.ToList();
+                foreach (var user in users)
+                {
+                    // Cập nhật lại SecurityStamp cho từng người dùng
+                    userManager.UpdateSecurityStamp(user.Id);
+                }
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+using Microsoft.VisualBasic.ApplicationServices;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Web;
+using WebBanHangOnline.Business;
 using WebBanHangOnline.Models;
 
 namespace WebBanHangOnline.Common
@@ -205,6 +207,7 @@ namespace WebBanHangOnline.Common
 
         public bool HasPermission(string moduleId, string permissionId, string userId)
         {
+            UserRoleBL bl = new UserRoleBL();
             using (var db = new ApplicationDbContext())
             {
                 var user = db.Users.Find(userId);
@@ -226,8 +229,47 @@ namespace WebBanHangOnline.Common
         {
             using (var db = new ApplicationDbContext())
             {
-                return db.RolePermissions.Any(x => x.RoleId == roleId && x.PermissionId == permissionId);
+                return db.RolePermissions.Any(x => x.RoleId.ToString() == roleId && x.PermissionId == permissionId);
             }
+        }
+
+        public Dictionary<SideBarViewModel, List<SideBarViewModel>> GetTreeModules()
+        {
+            var tree = new Dictionary<SideBarViewModel, List<SideBarViewModel>>();
+            var items = new List<SideBarViewModel>();
+            using (var db = new ApplicationDbContext())
+            {
+                var modules = db.Modules.Where(x => x.IsActive && x.IsSideBar).OrderBy(x => x.ParentId).OrderBy(x => x.Orders);
+                foreach (var module in modules)
+                {
+                    if (HasPermission(module.ModuleId, "view", _Environment.UserId))
+                    {
+                        items.Add(new SideBarViewModel
+                        {
+                            ModuleId = module.ModuleId,
+                            ModuleName = module.ModuleName,
+                            Url = module.Url,
+                            Icon = module.Icon,
+                            ParentId = module.ParentId,
+                            Orders = module.Orders,
+                        });
+                    }
+                }
+            }
+            foreach (var item in items.OrderBy(x => x.ParentId).OrderBy(x => x.Orders))
+            {
+                var key = tree.Keys.FirstOrDefault(x => x.ModuleId.Equals(item.ParentId));
+                if (key != null)
+                {
+                    tree[key].Add(item);
+                }
+                else
+                {
+                    tree.Add(item, new List<SideBarViewModel>());
+                }
+            }
+
+            return tree;
         }
     }
 }
