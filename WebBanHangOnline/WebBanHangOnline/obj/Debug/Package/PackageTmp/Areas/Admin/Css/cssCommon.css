@@ -33,3 +33,9 @@
     pointer-events: none;
     color: #ccc;
 }
+
+.btn-confirm {
+    margin: 0 15px;
+    background-color: #055d91;
+    color: #fff;
+}

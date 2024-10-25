@@ -3,11 +3,11 @@
         [
             {
                 type: 'add',
-                action: actionToolBar.ActionAdd
+                action: actionScreen.ActionAdd
             },
             {
                 type: 'delete',
-                action: actionToolBar.ActionDelete
+                action: actionScreen.ActionDelete
             }
             /*'add', 'delete'*/
         ],
@@ -83,85 +83,24 @@
     });
     $('body').on('click', '.btnDelete', function () {
         var id = $(this).data("id");
-        var conf = confirm('Bạn có muốn xóa bản ghi này không?');
-        if (conf === true) {
-            $.ajax({
-                url: '/admin/Products/delete',
-                type: 'POST',
-                data: { id: id },
-                success: function (rs) {
-                    if (rs.success) {
-                        $('#trow_' + id).remove();
-                    }
-                }
-            });
-        }
-    });
-    $('body').on('change', '.btnHome', function (e) {
-        e.preventDefault();
-        var btn = $(this);
-        var id = btn.data("id");
-        $.ajax({
-            url: '/admin/Products/IsHome',
-            type: 'POST',
-            data: { id: id },
-            success: function (rs) {
-                if (rs.success) {
-                    if (rs.IsHome) {
-                        btn.attr("checked", true);
-                    } else {
-                        btn.attr("checked", false);
-                    }
-                }
-            }
-        });
-    });
-
-    $('body').on('click', '.btnSale', function (e) {
-        e.preventDefault();
-        var btn = $(this);
-        var id = btn.data("id");
-        $.ajax({
-            url: '/admin/Products/IsSale',
-            type: 'POST',
-            data: { id: id },
-            success: function (rs) {
-                if (rs.success) {
-                    if (rs.IsSale) {
-                        btn.attr("checked", true);
-                    } else {
-                        btn.attr("checked", false);
-                    }
-                }
-
-            }
-        });
-    });
-    $('body').on('click', '.btnActive', function (e) {
-        e.preventDefault();
-        var btn = $(this);
-        var id = btn.data("id");
-        $.ajax({
-            url: '/admin/Products/IsActive',
-            type: 'POST',
-            data: { id: id },
-            success: function (rs) {
-                if (rs.success) {
-                    if (rs.isAcive) {
-                        btn.html("<i class='fa fa-check text-success'></i>");
-                        //$(this).find("i").removeClass("fas fa-times text-danger")
-                        //$(this).find("i").addClass("fa fa-check text-success");
-                    } else {
-                        btn.html("<i class='fas fa-times text-danger'></i>");
-                    }
-                }
-
-            }
-        });
+        actionScreen.deleteItem(id);
+        //var conf = confirm('Bạn có muốn xóa bản ghi này không?');
+        //if (conf === true) {
+        //    $.ajax({
+        //        url: '/admin/Products/delete',
+        //        type: 'POST',
+        //        data: { id: id },
+        //        success: function (rs) {
+        //            if (rs.success) {
+        //                $('#trow_' + id).remove();
+        //            }
+        //        }
+        //    });
+        //}
     });
 });
 
-actionToolBar = new function () {
+actionScreen = new function () {
     this.ActionAdd = function () {
         window.open('/admin/products/add', '_self');
     }
@@ -169,7 +108,7 @@ actionToolBar = new function () {
     this.ActionDelete = function () {
         var str = "";
         var checkbox = $(this).parents('.card').find('tr td input:checkbox');
-        var i = 0;
+        var i = 0; 
         checkbox.each(function () {
             if (this.checked) {
                 var _id = $(this).val();
@@ -198,5 +137,30 @@ actionToolBar = new function () {
                 });
             }
         }
+    }
+
+    this.deleteItem = function (id) {
+        _common.ShowConfirm("Thông báo", "Bạn có chắc chắn muốn xóa?",
+            function () {
+                _common.StartLoading();
+                _common.PostWithJsonData("/admin/Products/delete", { id: id }, 'application/json',
+                    function (res) {
+                        if (res) {
+                            if (res.IsError) {
+                                _common.ShowMessageBoxError("Thông báo", "Đã xảy ra lỗi trong quá trình xử lý!\nError: " + res.MessageError);
+                            }
+                            else if (res.Data) {
+                                $('#trow_' + id).remove();
+                                _common.ShowToastSuccess("Xóa thành công.");
+                            }
+                        }
+                    },
+                    function (xhr, status, error) {
+                        _common.ShowMessageBoxError("Thông báo", "Đã xảy ra lỗi trong quá trình xử lý!\nError: " + error);
+                    }
+                );
+                _common.StopLoading();
+            }
+        );
     }
 }

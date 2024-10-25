@@ -1,4 +1,4 @@
-﻿@using WebBanHangOnline.Common
+﻿@model IEnumerable<WebBanHangOnline.Models.SideBarViewModel>
 
 <!-- Sidebar -->
 <div class="sidebar">
@@ -29,57 +29,41 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
             <!-- Add icons to the links using the .nav-icon class
     with font-awesome or any other icon font library -->
-            @foreach (var item in Applications.Instance.GetTreeModules())
+            @*@if (Model != null && Model.Any())
             {
-                if (!item.Value.Any())
+                var i = 0;
+                var dicts = new Dictionary<string, List<WebBanHangOnline.Models.SideBarViewModel>>();
+                var parentIdTmp = "";
+                foreach (var item in Model)
                 {
-                    <li class="nav-item" id="module-@item.Key.ModuleId">
-                        <a href="@item.Key.Url" class="nav-link">
-                            <i class="nav-icon fas @item.Key.Icon"></i>
-                            <p>
-                                @item.Key.ModuleName
-                            </p>
-                        </a>
-                    </li>
+                    if (!string.IsNullOrEmpty(item.ParentId) && item.ParentId != parentIdTmp)
+                    {
+                        parentIdTmp = item.ParentId;
+                    }
+                    if (dicts.ContainsKey(item.ParentId))
+                    {
+                        var list = new List<WebBanHangOnline.Models.SideBarViewModel>();
+                        dicts.TryGetValue(item.ParentId, out list);
+                        dicts.
+                    }
                 }
-                else
+                var parents = Model.Where(x => !string.IsNullOrEmpty(x.ParentId));
+                foreach (var item in Model)
                 {
-                    <li class="nav-item" id="module-@item.Key.ModuleId">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon far fa-plus-square"></i>
-                            <p>
-                                @item.Key.ModuleName
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            @foreach (var moduleItem in item.Value)
-                            {
-                                <li class="nav-item" id="module-@moduleItem.ModuleId">
-                                    <a href="@moduleItem.Url" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>@moduleItem.ModuleName</p>
-                                    </a>
-                                </li>
-                            }
-                            @*<li class="nav-item">
-                                <a href="/admin/productcategory" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Danh mục sản phẩm</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/admin/products" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Sản phẩm</p>
-                                </a>
-                            </li>*@
-
-                        </ul>
-                    </li>
+                    if (string.IsNullOrEmpty(item.ParentId))
+                    {
+                        <li class="nav-item">
+                            <a href="@(string.IsNullOrEmpty(item.Url) ? "#" : item.Url)" class="nav-link">
+                                <i class="nav-icon fas @item.Icon"></i>
+                                <p>
+                                    @item.ModuleName
+                                </p>
+                            </a>
+                        </li>
+                    }
                 }
-            }
-            @*<li class="nav-item">
+            }*@
+            <li class="nav-item">
                 <a href="/admin/home" class="nav-link">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>
@@ -108,7 +92,7 @@
                     <i class="nav-icon fas fa-newspaper"></i>
                     <p>
                         Tin tức
-                        <span class="right badge badge-danger">New</span>
+                        @*<span class="right badge badge-danger">New</span>*@
                     </p>
                 </a>
             </li>
@@ -117,7 +101,7 @@
                     <i class="nav-icon fas fa-bookmark"></i>
                     <p>
                         Bài viết
-                        <span class="right badge badge-danger">New</span>
+                        @*<span class="right badge badge-danger">New</span>*@
                     </p>
                 </a>
             </li>
@@ -126,7 +110,7 @@
                     <i class="nav-icon fas fa-table"></i>
                     <p>
                         Đơn hàng
-                        <span class="right badge badge-danger">New</span>
+                        @*<span class="right badge badge-danger">New</span>*@
                     </p>
                 </a>
             </li>
@@ -135,7 +119,7 @@
                     <i class="nav-icon fas fa-copy"></i>
                     <p>
                         Quảng cáo
-                        <span class="right badge badge-danger">New</span>
+                        @*<span class="right badge badge-danger">New</span>*@
                     </p>
                 </a>
             </li>
@@ -168,7 +152,7 @@
                     <i class="nav-icon fas fa-chart-pie"></i>
                     <p>
                         Thống kê doanh thu
-                        <span class="right badge badge-danger">New</span>
+                        @*<span class="right badge badge-danger">New</span>*@
                     </p>
                 </a>
             </li>
@@ -177,7 +161,7 @@
                     <i class="nav-icon fas fa-cogs"></i>
                     <p>
                         Cấu hình hệ thống
-                        <span class="right badge badge-danger">New</span>
+                        @*<span class="right badge badge-danger">New</span>*@
                     </p>
                 </a>
             </li>
@@ -186,16 +170,16 @@
                     <i class="nav-icon fas fa-user"></i>
                     <p>
                         Tài khoản
-                        <span class="right badge badge-danger">New</span>
+                        @*<span class="right badge badge-danger">New</span>*@
                     </p>
                 </a>
-            </li>*@
+            </li>
             <li class="nav-item">
                 <a href="javascript:document.getElementById('logOffForm').submit()" class="nav-link">
                     <i class="nav-icon fas fa-sign-out-alt"></i>
                     <p>
                         Đăng xuất
-                        <span class="right badge badge-danger">New</span>
+                        @*<span class="right badge badge-danger">New</span>*@
                     </p>
                 </a>
             </li>
@@ -207,8 +191,8 @@
 
 @if (Request.IsAuthenticated)
 {
-<div style="display:none">
-    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { @id = "logOffForm" }))
-    {
-@Html.AntiForgeryToken()}
-</div>}
+    <div style="display:none">
+        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { @id = "logOffForm" }))
+        {
+            @Html.AntiForgeryToken()}
+    </div>}
