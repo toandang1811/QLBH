@@ -11,6 +11,7 @@ using System.Web;
 using System.Web.Mvc;
 using WebBanHangOnline.Business;
 using WebBanHangOnline.Common;
+using WebBanHangOnline.Http.Response;
 using WebBanHangOnline.Models;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
@@ -21,7 +22,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private ApplicationDbContext db = ApplicationDbContext.Create();
-        private UserRoleBL _bl = new UserRoleBL();
+        private UserBL _bl = new UserBL();
         public AccountController()
         {
         }
@@ -60,7 +61,23 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         [CustomAuthorizeAttribute(Roles = "Admin")]
         public ActionResult Index()
         {
+            List<UsersResponse> users = new List<UsersResponse>();
             var items = db.Users.ToList();
+            foreach (var item in items)
+            {
+                var userRes = new UsersResponse()
+                {
+                    UserId = item.Id,
+                    UserName = item.UserName,
+                    PhoneNumber = item.PhoneNumber,
+                    Avatar = item.Avatar,
+                    Roles = new List<Roles>()
+                };
+                foreach (var role in item.Roles)
+                {
+                    userRes.Roles.Add(new Roles() { RoleId = role.RoleId, RoleName = _bl.GetRoleNameByRoleId(role.RoleId) });
+                } 
+            } 
             return View(items);
         }
 

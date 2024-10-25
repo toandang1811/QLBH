@@ -23,6 +23,8 @@ namespace WebBanHangOnline.Models
         }
     }
 
+    
+
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()

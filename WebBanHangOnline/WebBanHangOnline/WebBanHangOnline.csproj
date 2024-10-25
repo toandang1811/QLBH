@@ -307,6 +307,7 @@
     <Compile Include="Http\Request\UpdateImageProductRequest.cs" />
     <Compile Include="Http\Response\BaseResponse.cs" />
     <Compile Include="Http\Response\UpdateImageProductResponse.cs" />
+    <Compile Include="Http\Response\UsersResponse.cs" />
     <Compile Include="Messages\MessagesInfo.cs" />
     <Compile Include="Migrations\202410090206239_addcolumn.cs" />
     <Compile Include="Migrations\202410090206239_addcolumn.Designer.cs">
@@ -3405,6 +3406,7 @@
     <Content Include="Areas\Admin\Css\cssCommon.css" />
     <Content Include="Areas\Admin\Css\cssProduct.css" />
     <Content Include="Areas\Admin\Css\cssProductImage.css" />
+    <Content Include="Areas\Admin\Scripts\Account\index.js" />
     <Content Include="Areas\Admin\Scripts\jsCommonAdmin.js" />
     <Content Include="Areas\Admin\Scripts\jsNews.js" />
     <Content Include="Areas\Admin\Scripts\jsPost.js" />

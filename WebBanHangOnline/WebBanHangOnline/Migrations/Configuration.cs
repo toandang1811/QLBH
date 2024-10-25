@@ -26,7 +26,8 @@
                 new Models.EF.SystemSetting() { SettingKey = "SettingHotline", SettingValue = "0374178407", SettingDescription = "" },
                 new Models.EF.SystemSetting() { SettingKey = "SettingTitleSeo", SettingValue = "", SettingDescription = "" },
                 new Models.EF.SystemSetting() { SettingKey = "SettingDesSeo", SettingValue = "", SettingDescription = "" },
-                new Models.EF.SystemSetting() { SettingKey = "SettingKeySeo", SettingValue = "", SettingDescription = "" }
+                new Models.EF.SystemSetting() { SettingKey = "SettingKeySeo", SettingValue = "", SettingDescription = "" },
+                new Models.EF.SystemSetting() { SettingKey = "IsSaveImageByLocal", SettingValue = "0", SettingDescription = "" }
                 );
 
             context.Roles.AddOrUpdate(x => x.Id,

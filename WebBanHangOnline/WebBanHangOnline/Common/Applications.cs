@@ -1,5 +1,7 @@
-﻿using CloudinaryDotNet;
+﻿using Business;
+using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
+using CloudinaryDotNet.Core;
 using Microsoft.VisualBasic.ApplicationServices;
 using System;
 using System.Collections.Generic;
@@ -207,7 +209,7 @@ namespace WebBanHangOnline.Common
 
         public bool HasPermission(string moduleId, string permissionId, string userId)
         {
-            UserRoleBL bl = new UserRoleBL();
+            UserBL bl = new UserBL();
             using (var db = new ApplicationDbContext())
             {
                 var user = db.Users.Find(userId);
@@ -265,7 +267,21 @@ namespace WebBanHangOnline.Common
                 }
                 else
                 {
-                    tree.Add(item, new List<SideBarViewModel>());
+                    var keys = tree.Keys.Where(x => !string.IsNullOrEmpty(x.ParentId) && x.ParentId == item.ModuleId).Clone();
+                    if (keys.Any())
+                    {
+                        var listSideBar = new List<SideBarViewModel>();
+                        foreach (var k in keys)
+                        {
+                            listSideBar.Add(k);
+                            tree.Remove(tree.Keys.First(x => x.ModuleId.Equals(k.ModuleId)));
+                        }
+                        tree.Add(item, listSideBar);
+                    }
+                    else
+                    {
+                        tree.Add(item, new List<SideBarViewModel>());
+                    }
                 }
             }
 

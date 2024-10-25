@@ -24,9 +24,7 @@
     <div class="card">
         <div class="card-header">
             <h3 class="card-title">Danh sách tài khoản</h3>
-
-            <div class="card-tools">
-                <a href="/admin/account/create" class="btn btn-success">Thêm mới</a>
+            <div class="card-tools" id="card-taskbar">
             </div>
         </div>
         <div class="card-body">
@@ -37,6 +35,7 @@
                         <th>Tài khoản</th>
                         <th>Họ tên</th>
                         <th>Email</th>
+                        <th>Phân quyền</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -48,9 +47,15 @@
                         {
                             <tr>
                                 <td>@i</td>
-                                <td><a href="/admin/account/view/?UserName=@item.UserName" style="text-decoration: underline;">@item.UserName</a></td> 
+                                <td><a href="/admin/account/view/?UserName=@item.UserName" style="text-decoration: underline;">@item.UserName</a></td>
                                 <td>@item.FullName</td>
                                 <td>@item.Email</td>
+                                <td>
+                                    @foreach (var role in item.Roles)
+                                    {
+                                        <span class="badge bg-primary">@role.</span>
+                                    }
+                                </td>
                                 <td>
                                     <a href="#" data-user="@item.UserName" class="btn btn-sm btn-danger btnDelete">Xóa</a>
                                 </td>
@@ -72,3 +77,6 @@
 
 </section>
 <!-- /.content -->
+@section scripts{
+    <script src="~/Areas/Admin/Scripts/Account/index.js"></script>
+}

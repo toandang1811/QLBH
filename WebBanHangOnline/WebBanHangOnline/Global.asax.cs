@@ -23,7 +23,7 @@ namespace WebBanHangOnline
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            UpdateAllUsersSecurityStamp();
+            //UpdateAllUsersSecurityStamp();
             Application["HomNay"] = 0;
             Application["HomQua"] = 0;
             Application["TuanNay"] = 0;
@@ -65,20 +65,20 @@ namespace WebBanHangOnline
             Application.UnLock();
         }
 
-        private void UpdateAllUsersSecurityStamp()
-        {
-            // Lấy UserManager từ OWIN context
-            var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+        //private void UpdateAllUsersSecurityStamp()
+        //{
+        //    // Lấy UserManager từ OWIN context
+        //    var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
-            if (userManager != null)
-            {
-                var users = userManager.Users.ToList();
-                foreach (var user in users)
-                {
-                    // Cập nhật lại SecurityStamp cho từng người dùng
-                    userManager.UpdateSecurityStamp(user.Id);
-                }
-            }
-        }
+        //    if (userManager != null)
+        //    {
+        //        var users = userManager.Users.ToList();
+        //        foreach (var user in users)
+        //        {
+        //            // Cập nhật lại SecurityStamp cho từng người dùng
+        //            userManager.UpdateSecurityStamp(user.Id);
+        //        }
+        //    }
+        //}
     }
 }

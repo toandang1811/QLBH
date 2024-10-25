@@ -21,5 +21,15 @@ namespace Business
         {
             return _dl.GetUserInfo(userId);
         }
+
+        public List<UserRole> GetListUserRoleByUserId(string userId)
+        {
+            return _dl.GetListUserRoleByUserId(userId);
+        }
+
+        public string GetRoleNameByRoleId(string roleId)
+        {
+            return _dl.GetRoleNameByRoleId(roleId);
+        }
     }
 }
