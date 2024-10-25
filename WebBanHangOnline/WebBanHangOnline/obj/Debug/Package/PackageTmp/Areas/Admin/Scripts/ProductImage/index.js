@@ -1,5 +1,6 @@
 ﻿var listAction = []
 var idx = 0;
+var isDelete = false;
 $(document).ready(function () {
     _common.createToolbar(
         [
@@ -32,18 +33,22 @@ $(document).ready(function () {
     });
 
     $('body').on('click', '.gallery .line-img', function () {
+        if (isDelete) {
+            isDelete = false;
+            return;
+        }
         if (!$(this).hasClass('check-default')) {
             var id = $(this).attr('id');
             var itemsCheck = $('.line-img.check-default');
             var action = new Action();
             if (itemsCheck && itemsCheck.length == 1 && itemsCheck.eq(0).attr('id') != id) {
                 itemsCheck.eq(0).removeClass('check-default');
+                action.prevNodeId = itemsCheck.eq(0).attr('id');
             }
             $(this).addClass('check-default');
             action.actionType = 'edit';
             action.id = id;
-            action.prevNodeId = $(`#${id}`).prev('div')?.attr('id');
-            action.nextNodeId = $(`#${id}`).next('div')?.attr('id');
+            action.nextNodeId = null;
             if (id.startsWith('image-add')) {
                 var item = listAction.find(x => x.id == id);
                 if (item != null) {
@@ -69,7 +74,7 @@ actionScreen = new function () {
      * Load mặc định
      */
     this.loadDefault = function () {
-        $('#undo-btn').attr("aria-disabled", true);
+        _common.disableButton(['undo']);
     }
 
     /**
@@ -83,37 +88,56 @@ actionScreen = new function () {
      * action save handle
      */
     this.saveHandler = function () {
-        var formData = new FormData();
-        var requestIndex = 0;
-        listAction.forEach(item => {
-            if (item.actionType == 'add') {
-                formData.append(`request[${requestIndex}].Id`, item.id);
-                formData.append(`request[${requestIndex}].httpPostedFileBase`, item.file);
-                requestIndex++;
-            }
+        _common.ShowConfirm("Thông báo", "Bạn có chắc chắn muốn lưu thay đổi?",
+            function () {
+                var formData = new FormData();
+                var requestIndex = 0;
+                listAction.forEach(item => {
+                    if (item.actionType == 'add') {
+                        formData.append(`request[${requestIndex}].Id`, item.id);
+                        formData.append(`request[${requestIndex}].httpPostedFileBase`, item.file);
+                        requestIndex++;
+                    }
 
-            if (item.actionType == 'delete' && !item.id.startsWith('image-add')) {
-                var id = item.id.split('-').slice(-1)[0];
-                formData.append('deleteIds', Number(id));
-            }
-        })
-        var itemsCheck = $('.line-img.check-default');
-        if (itemsCheck && itemsCheck.length == 1) {
-            formData.append('idDefault', itemsCheck.eq(0).attr('id'))
-        }
-        formData.append('productId', Number($('#product-id').val()));
+                    if (item.actionType == 'delete' && !item.id.startsWith('image-add')) {
+                        var id = item.id.split('-').slice(-1)[0];
+                        formData.append('deleteIds', Number(id));
+                    }
+                })
+                var itemsCheck = $('.line-img.check-default');
+                if (itemsCheck && itemsCheck.length == 1) {
+                    formData.append('idDefault', itemsCheck.eq(0).attr('id'))
+                }
+                formData.append('productId', Number($('#product-id').val()));
 
-        _common.StartLoading();
-        _common.PostWithFormData("/ProductImage/Update", formData,
-            function (res) {
-                console.log(res);
-                _common.StopLoading();
-            },
-            function (xhr, status, error) {
-
-                _common.StopLoading();
+                _common.StartLoading("card-action");
+                _common.PostWithFormData("/ProductImage/Update", formData,
+                    function (res) {
+                        if (res && !res.IsError) {
+                            $('#container-product-image').empty();
+                            if (res.Data && res.Data.length > 0) {
+                                for (var i = 0; i < res.Data.length; i++) {
+                                    var item = res.Data[i];
+                                    var classCheck = item.IsDefault ? 'check-default' : '';
+                                    var element = `<div class="col-sm-2 line-img ${classCheck}" id="image-${item.Id}">
+                                    <button class="close" data-id="image-${item.Id}"><i class="fas fa-times"></i></button>
+                                    <input type="hidden" id="public-id-image-${item.Id}" value="${item.PublicId}"/>
+                                    <img src="${item.Image}" id="src-image-${item.Id}" class="img-fluid mb-2" alt="white sample" />
+                                </div>`;
+                                    $('#container-product-image').append(element);
+                                }
+                                _common.ShowToastSuccess("Lưu thành công");
+                            }
+                        }
+                        _common.StopLoading("card-action");
+                    },
+                    function (xhr, status, error) {
+                        _common.ShowMessageBoxError("Thông báo", "Đã xảy ra lỗi trong quá trình xử lý.\nError: " + error);
+                        _common.StopLoading("card-action");
+                    }
+                );
             }
-        );
+        )
     }
 
     /**
@@ -179,9 +203,8 @@ actionScreen = new function () {
                     if (!prevNode.hasClass('check-default')) {
                         prevNode.addClass('check-default');
                     }
-
-                    $(`#${item.id}`).removeClass('check-default');
                 }
+                $(`#${item.id}`).removeClass('check-default');
                 break;
             default: break;
         }
@@ -232,6 +255,7 @@ actionScreen = new function () {
         }
         $(`#${id}`).remove();
         addAction(action);
+        isDelete = true;
     }
 }
 

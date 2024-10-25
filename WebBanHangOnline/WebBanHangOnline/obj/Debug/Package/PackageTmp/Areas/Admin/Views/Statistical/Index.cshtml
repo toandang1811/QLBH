@@ -1,6 +1,21 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Thống kê doanh thu";
+}
+
+@section naviheader{
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin/home" class="nav-link">Trang chủ</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="/admin/statistical" class="nav-link">@ViewBag.Title</a>
+        </li>
+    </ul>
 }
 
 <!-- Content Header (Page header) -->
@@ -154,10 +169,10 @@
             $.each(data, function (i, item) {
                 var strDate = moment(item.Date).format('DD/MM/yyyy');
                 strHtml += "<tr>";
-                strHtml += "<td>"+(i+1)+"</td>";
-                strHtml += "<td>" + strDate+"</td>";
-                strHtml += "<td>" +NumberFormat(item.DoanhThu, "decimal", "vi-VN", "VND", 0)+"</td>";
-                strHtml += "<td>" + NumberFormat(item.LoiNhuan, "decimal", "vi-VN", "VND", 0) +"</td>";
+                strHtml += "<td>" + (i + 1) + "</td>";
+                strHtml += "<td>" + strDate + "</td>";
+                strHtml += "<td>" + NumberFormat(item.DoanhThu, "decimal", "vi-VN", "VND", 0) + "</td>";
+                strHtml += "<td>" + NumberFormat(item.LoiNhuan, "decimal", "vi-VN", "VND", 0) + "</td>";
                 strHtml += "</tr>";
             });
             $('#load_data').html(strHtml);

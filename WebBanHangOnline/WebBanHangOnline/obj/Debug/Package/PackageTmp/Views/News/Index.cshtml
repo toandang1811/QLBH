@@ -1,4 +1,4 @@
-﻿@model PagedList.PagedList<WebBanHangOnline.Models.EF.News>
+﻿@model IEnumerable<WebBanHangOnline.Models.EF.News>
 @using PagedList.Mvc;
 @using PagedList;
 @{
@@ -56,7 +56,7 @@
         <div class="row">
             <div class="col-6"></div>
             <div class="col-6" style="text-align:right;">
-                @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+                @Html.PagedListPager((IPagedList)Model, page => Url.Action("Index", new { page }))
             </div>
         </div>
     }
