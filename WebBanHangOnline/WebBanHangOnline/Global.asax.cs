@@ -18,7 +18,6 @@ namespace WebBanHangOnline
     {
         protected void Application_Start()
         {
-            
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
@@ -32,12 +31,27 @@ namespace WebBanHangOnline
             Application["ThangTruoc"] = 0;
             Application["TatCa"] = 0;
             Application["visitors_online"] = 0;
+            Application["isBegin"] = true;
         }
+
+        protected void Application_BeginRequest()
+        {
+            if (HttpContext.Current.Request.Cookies[".AspNet.ApplicationCookie"] != null && Convert.ToBoolean(Application["isBegin"]))
+            {
+                HttpCookie cookie = new HttpCookie(".AspNet.ApplicationCookie")
+                {
+                    Expires = DateTime.Now.AddDays(-1) // Thiết lập ngày hết hạn để xóa cookie
+                };
+                HttpContext.Current.Response.Cookies.Add(cookie);
+            }
+        }
+
         void Session_Start(object sender, EventArgs e)
         {
             Session.Timeout = 150;
             Application.Lock();
             Application["visitors_online"] = Convert.ToInt32(Application["visitors_online"]) + 1;
+            Application["isBegin"] = false;
             Application.UnLock();
             try
             {

@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
+using System.Runtime.CompilerServices;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -23,7 +25,12 @@ namespace WebBanHangOnline.Models
         }
     }
 
-    
+    public class ApplicationRole : IdentityRole
+    {
+        public string Description { get; set; }
+        [DefaultValue(false)]
+        public bool IsActive { get; set; }
+    }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {

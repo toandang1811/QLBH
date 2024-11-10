@@ -31,5 +31,15 @@ namespace Business
         {
             return _dl.GetRoleNameByRoleId(roleId);
         }
+
+        public List<Role> GetRolesOfUser(string userId)
+        {
+            return _dl.GetRolesOfUser(userId);
+        }
+
+        public bool CheckHasPermission(string userId, string moduleId, string permissionId)
+        {
+            return _dl.CheckHasPermission(userId, moduleId, permissionId);
+        }
     }
 }

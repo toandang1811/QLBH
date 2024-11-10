@@ -1,6 +1,8 @@
 ﻿using Microsoft.Owin;
+using Microsoft.Owin.Security;
 using Owin;
 using System;
+using System.Web;
 
 [assembly: OwinStartupAttribute(typeof(WebBanHangOnline.Startup))]
 namespace WebBanHangOnline

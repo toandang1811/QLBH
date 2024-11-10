@@ -79,117 +79,6 @@
                     </li>
                 }
             }
-            @*<li class="nav-item">
-                <a href="/admin/home" class="nav-link">
-                    <i class="nav-icon fas fa-tachometer-alt"></i>
-                    <p>
-                        Dashboard
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/admin/Category" class="nav-link">
-                    <i class="nav-icon fas fas fa-th"></i>
-                    <p>
-                        Danh mục
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/admin/role" class="nav-link">
-                    <i class="nav-icon fas fa-th"></i>
-                    <p>
-                        Role
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/admin/news" class="nav-link">
-                    <i class="nav-icon fas fa-newspaper"></i>
-                    <p>
-                        Tin tức
-                        <span class="right badge badge-danger">New</span>
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/admin/posts" class="nav-link">
-                    <i class="nav-icon fas fa-bookmark"></i>
-                    <p>
-                        Bài viết
-                        <span class="right badge badge-danger">New</span>
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/admin/order" class="nav-link">
-                    <i class="nav-icon fas fa-table"></i>
-                    <p>
-                        Đơn hàng
-                        <span class="right badge badge-danger">New</span>
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/admin/posts" class="nav-link">
-                    <i class="nav-icon fas fa-copy"></i>
-                    <p>
-                        Quảng cáo
-                        <span class="right badge badge-danger">New</span>
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="nav-icon far fa-plus-square"></i>
-                    <p>
-                        Quản lý sản phẩm
-                        <i class="right fas fa-angle-left"></i>
-                    </p>
-                </a>
-                <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a href="/admin/productcategory" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Danh mục sản phẩm</p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/admin/products" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Sản phẩm</p>
-                        </a>
-                    </li>
-
-                </ul>
-            </li>
-            <li class="nav-item">
-                <a href="/admin/statistical" class="nav-link">
-                    <i class="nav-icon fas fa-chart-pie"></i>
-                    <p>
-                        Thống kê doanh thu
-                        <span class="right badge badge-danger">New</span>
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/admin/settingsystem" class="nav-link">
-                    <i class="nav-icon fas fa-cogs"></i>
-                    <p>
-                        Cấu hình hệ thống
-                        <span class="right badge badge-danger">New</span>
-                    </p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/admin/account" class="nav-link">
-                    <i class="nav-icon fas fa-user"></i>
-                    <p>
-                        Tài khoản
-                        <span class="right badge badge-danger">New</span>
-                    </p>
-                </a>
-            </li>*@
             <li class="nav-item">
                 <a href="javascript:document.getElementById('logOffForm').submit()" class="nav-link">
                     <i class="nav-icon fas fa-sign-out-alt"></i>
@@ -210,5 +99,7 @@
 <div style="display:none">
     @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { @id = "logOffForm" }))
     {
-@Html.AntiForgeryToken()}
-</div>}
+        @Html.AntiForgeryToken()
+    }
+</div>
+}

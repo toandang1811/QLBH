@@ -50,9 +50,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseBL.cs" />
+    <Compile Include="UIConfigs\FieldObjectBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RoleBL.cs" />
     <Compile Include="ThongKeBL.cs" />
+    <Compile Include="UIConfigs\SysComboboxBL.cs" />
     <Compile Include="UserBL.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

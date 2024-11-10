@@ -3,22 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebBanHangOnline.Common;
 using WebBanHangOnline.Models;
 using WebBanHangOnline.Models.EF;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
-    [CustomAuthorizeAttribute(Roles = "Admin,Employee")]
+    [CustomAuthorize(permission: _Environment.VIEW, moduleId: _Environment.M_PRODUCTCATEGORIES)]
     public class ProductCategoryController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: Admin/ProductCategory
+        [CustomAuthorize(permission: _Environment.VIEW, moduleId: _Environment.M_PRODUCTCATEGORIES)]
         public ActionResult Index()
         {
             var items = db.ProductCategories;
             return View(items);
         }
 
+        [CustomAuthorize(permission: _Environment.ADD, moduleId: _Environment.M_PRODUCTCATEGORIES)]
         public ActionResult Add()
         {
             return View();
@@ -26,6 +29,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [CustomAuthorize(permission: _Environment.ADD, moduleId: _Environment.M_PRODUCTCATEGORIES)]
         public ActionResult Add(ProductCategory model)
         {
             if (ModelState.IsValid)
@@ -41,6 +45,8 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             }
             return View();
         }
+
+        [CustomAuthorize(permission: _Environment.UPDATE, moduleId: _Environment.M_PRODUCTCATEGORIES)]
         public ActionResult Edit(int id)
         {
             var item = db.ProductCategories.Find(id);
@@ -48,6 +54,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [CustomAuthorize(permission: _Environment.UPDATE, moduleId: _Environment.M_PRODUCTCATEGORIES)]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(ProductCategory model)
         {

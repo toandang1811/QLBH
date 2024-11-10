@@ -286,6 +286,7 @@
     <Compile Include="Areas\Admin\Controllers\ProductImageController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductsController.cs" />
     <Compile Include="Areas\Admin\Controllers\RoleController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UIConfigsController.cs" />
     <Compile Include="Areas\Admin\Controllers\SettingSystemController.cs" />
     <Compile Include="Areas\Admin\Controllers\StatisticalController.cs" />
     <Compile Include="Areas\Admin\CustomAuthorizeAttribute.cs" />
@@ -306,6 +307,9 @@
     </Compile>
     <Compile Include="Http\Request\UpdateImageProductRequest.cs" />
     <Compile Include="Http\Response\BaseResponse.cs" />
+    <Compile Include="Http\Response\DataComboboxResponse.cs" />
+    <Compile Include="Http\Response\DataTaleResponse.cs" />
+    <Compile Include="Http\Response\FieldObjectResponse.cs" />
     <Compile Include="Http\Response\UpdateImageProductResponse.cs" />
     <Compile Include="Http\Response\UsersResponse.cs" />
     <Compile Include="Messages\MessagesInfo.cs" />
@@ -316,6 +320,10 @@
     <Compile Include="Migrations\202410220850483_add_new_tbls.cs" />
     <Compile Include="Migrations\202410220850483_add_new_tbls.Designer.cs">
       <DependentUpon>202410220850483_add_new_tbls.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202410280823090_add_col.cs" />
+    <Compile Include="Migrations\202410280823090_add_col.Designer.cs">
+      <DependentUpon>202410280823090_add_col.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -3410,6 +3418,7 @@
     <Content Include="Areas\Admin\Scripts\jsCommonAdmin.js" />
     <Content Include="Areas\Admin\Scripts\jsNews.js" />
     <Content Include="Areas\Admin\Scripts\jsPost.js" />
+    <Content Include="Areas\Admin\Scripts\Permission\index.js" />
     <Content Include="Areas\Admin\Scripts\Product\add.js" />
     <Content Include="Areas\Admin\Scripts\Product\index.js" />
     <Content Include="Areas\Admin\Scripts\ProductCategory\index.js" />
@@ -6019,6 +6028,7 @@
     <Folder Include="Areas\Admin\Data\" />
     <Folder Include="Areas\Admin\Enum\" />
     <Folder Include="Areas\Admin\Views\Adv\" />
+    <Folder Include="Areas\Admin\Views\SettingFields\" />
     <Folder Include="Uploads\files\" />
     <Folder Include="Uploads\flash\" />
     <Folder Include="Uploads\_thumbs\Images\" />
@@ -6043,6 +6053,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202410220850483_add_new_tbls.resx">
       <DependentUpon>202410220850483_add_new_tbls.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202410280823090_add_col.resx">
+      <DependentUpon>202410280823090_add_col.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

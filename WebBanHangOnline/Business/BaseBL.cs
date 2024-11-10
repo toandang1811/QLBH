@@ -6,7 +6,7 @@ using System.Web;
 
 namespace WebBanHangOnline.Business
 {
-    public class BaseBL
+    public class BaseBL : IDisposable
     {
         protected DbTransaction _Transaction { get; set; }
 
@@ -17,6 +17,11 @@ namespace WebBanHangOnline.Business
         public BaseBL(DbTransaction transaction)
         {
             _Transaction = transaction;
+        }
+
+        public void Dispose() 
+        {
+            
         }
     }
 }

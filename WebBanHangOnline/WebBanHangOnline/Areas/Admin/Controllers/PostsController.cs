@@ -3,21 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebBanHangOnline.Common;
 using WebBanHangOnline.Models;
 using WebBanHangOnline.Models.EF;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
-    [CustomAuthorizeAttribute(Roles = "Admin,Employee")]
+    [CustomAuthorize(permission: _Environment.VIEW, moduleId: _Environment.M_POSTS)]
     public class PostsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: Admin/Posts
+        [CustomAuthorize(permission: _Environment.VIEW, moduleId: _Environment.M_POSTS)]
         public ActionResult Index()
         {
             var items = db.Posts.ToList();
             return View(items);
         }
+
+        [CustomAuthorize(permission: _Environment.ADD, moduleId: _Environment.M_POSTS)]
         public ActionResult Add()
         {
             return View();
@@ -25,6 +29,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [CustomAuthorize(permission: _Environment.ADD, moduleId: _Environment.M_POSTS)]
         public ActionResult Add(Posts model)
         {
             if (ModelState.IsValid)
@@ -42,6 +47,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             return View(model);
         }
 
+        [CustomAuthorize(permission: _Environment.UPDATE, moduleId: _Environment.M_POSTS)]
         public ActionResult Edit(int id)
         {
             var item = db.Posts.Find(id);
@@ -50,6 +56,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [CustomAuthorize(permission: _Environment.UPDATE, moduleId: _Environment.M_POSTS)]
         public ActionResult Edit(Posts model)
         {
             if (ModelState.IsValid)

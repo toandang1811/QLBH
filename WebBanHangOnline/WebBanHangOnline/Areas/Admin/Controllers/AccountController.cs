@@ -16,7 +16,7 @@ using WebBanHangOnline.Models;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin,Employee")]
+    [CustomAuthorize(permission: _Environment.VIEW, moduleId: _Environment.M_ACCOUNTS)]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -58,7 +58,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         }
 
         // GET: Admin/Account
-        [CustomAuthorizeAttribute(Roles = "Admin")]
+        [CustomAuthorize(permission: _Environment.VIEW, moduleId: _Environment.M_ACCOUNTS)]
         public ActionResult Index()
         {
             List<UsersResponse> users = new List<UsersResponse>();
@@ -71,14 +71,17 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                     UserName = item.UserName,
                     PhoneNumber = item.PhoneNumber,
                     Avatar = item.Avatar,
+                    FullName = item.FullName,
+                    Email = item.Email,
                     Roles = new List<Roles>()
                 };
                 foreach (var role in item.Roles)
                 {
                     userRes.Roles.Add(new Roles() { RoleId = role.RoleId, RoleName = _bl.GetRoleNameByRoleId(role.RoleId) });
-                } 
+                }
+                users.Add(userRes);
             } 
-            return View(items);
+            return View(users);
         }
 
         //
@@ -99,7 +102,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        [CustomAuthorize(Roles = "Admin,Employee")]
+        //[CustomAuthorize(Roles = "Admin,Employee")]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
@@ -140,6 +143,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                     _Environment.Email = userInfo.Email;
                     _Environment.FullName = userInfo.FullName;
                     _Environment.Email = userInfo.Email;
+                    _Environment.Roles = bl.GetRolesOfUser(user.Id);
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -156,7 +160,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         // POST: /Account/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [CustomAuthorize(Roles = "Admin,Employee")]
+        //[CustomAuthorize(Roles = "Admin,Employee")]
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
@@ -165,7 +169,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         //
         // GET: /Account/Register
         [AllowAnonymous]
-        [CustomAuthorize(Roles = "Admin")]
+        [CustomAuthorize(permission: _Environment.ADD, moduleId: _Environment.M_ACCOUNTS)]
         public ActionResult Create()
         {
             ViewBag.Role = new SelectList(db.Roles.ToList(), "Name", "Name");
@@ -177,7 +181,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        [CustomAuthorize(Roles = "Admin")]
+        [CustomAuthorize(permission: _Environment.ADD, moduleId: _Environment.M_ACCOUNTS)]
         public async Task<ActionResult> Create(CreateAccountViewModel model)
         {
             if (ModelState.IsValid)
@@ -212,7 +216,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
 
         // GET: /Account/Register
         [AllowAnonymous]
-        [CustomAuthorize(Roles = "Admin")]
+        [CustomAuthorize(permission: _Environment.VIEW, moduleId: _Environment.M_ACCOUNTS)]
         public ActionResult View(string UserName)
         {
             ViewBag.Role = new SelectList(db.Roles.ToList(), "Name", "Name");

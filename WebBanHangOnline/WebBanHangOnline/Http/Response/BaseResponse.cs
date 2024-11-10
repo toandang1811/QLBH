@@ -9,6 +9,7 @@ namespace WebBanHangOnline.Http.Response
     {
         public bool IsError { get; set; }
         public string MessageError {  get; set; }
+        public List<string> ErrorItems { get; set; }
         public T Data { get; set; }
     }
 }

@@ -11,11 +11,12 @@ using WebBanHangOnline.Models.EF;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
-    [CustomAuthorizeAttribute(Roles = "Admin,Employee")]
+    [CustomAuthorize(permission: _Environment.VIEW, moduleId: _Environment.M_PRODUCTS)]
     public class ProductsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: Admin/Products
+        [CustomAuthorize(permission: _Environment.VIEW, moduleId: _Environment.M_PRODUCTS)]
         public ActionResult Index(int? page)
         {
             IEnumerable<Product> items = db.Products.OrderByDescending(x => x.Id);
@@ -31,6 +32,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             return View(items);
         }
 
+        [CustomAuthorize(permission: _Environment.ADD, moduleId: _Environment.M_PRODUCTS)]
         public ActionResult Add()
         {
             ViewBag.ProductCategory = new SelectList(db.ProductCategories.ToList(), "Id", "Title");
@@ -39,6 +41,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [CustomAuthorize(permission: _Environment.ADD, moduleId: _Environment.M_PRODUCTS)]
         public ActionResult Add(Product model, List<HttpPostedFileBase> Images, List<int> rDefault)
         {
             if (ModelState.IsValid)

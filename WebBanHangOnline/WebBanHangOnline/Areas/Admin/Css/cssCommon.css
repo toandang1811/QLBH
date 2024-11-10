@@ -5,6 +5,7 @@
     justify-content: flex-start;
     background-color: transparent;
     padding: 10px 20px;
+    justify-content: end;
 }
 
 /* Style cho các nút trên taskbar */
@@ -38,4 +39,9 @@
     margin: 0 15px;
     background-color: #055d91;
     color: #fff;
+}
+
+.col-action {
+    gap: 3px;
+    display: flex;
 }

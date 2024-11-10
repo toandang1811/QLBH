@@ -8,15 +8,17 @@ using PagedList;
 using System.Globalization;
 using System.Data.Entity;
 using WebBanHangOnline.Models.ViewModels;
+using WebBanHangOnline.Common;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
-    [CustomAuthorizeAttribute(Roles = "Admin")]
+    [CustomAuthorize(permission: _Environment.VIEW, moduleId: _Environment.M_ORDERS)]
     public class OrderController : Controller
     {
 
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: Admin/Order
+        [CustomAuthorize(permission: _Environment.VIEW, moduleId: _Environment.M_ORDERS)]
         public ActionResult Index(int? page)
         {
             var items = db.Orders.OrderByDescending(x => x.CreatedDate).ToList();
@@ -32,8 +34,8 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             return View(items.ToPagedList(pageNumber, pageSize));
         }
 
-      
 
+        [CustomAuthorize(permission: _Environment.VIEW, moduleId: _Environment.M_ORDERS)]
         public ActionResult View(int id)
         {
             var item = db.Orders.Find(id);
@@ -47,6 +49,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [CustomAuthorize(permission: _Environment.UPDATE, moduleId: _Environment.M_ORDERS)]
         public ActionResult UpdateTT(int id, int trangthai)
         {
             var item = db.Orders.Find(id);

@@ -15,7 +15,7 @@ using WebBanHangOnline.Models.EF;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
-    [CustomAuthorizeAttribute(Roles = "Admin,Employee")]
+    [CustomAuthorize(permission: _Environment.UPDATE, moduleId: _Environment.M_PRODUCTS)]
     public class ProductImageController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

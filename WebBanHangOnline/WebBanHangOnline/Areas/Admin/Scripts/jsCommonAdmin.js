@@ -17,6 +17,12 @@
         id: "delete-btn",
         action: function () { alert("Xóa được nhấn!"); }
     },
+    'view': {
+        icon: "fas fa-eye",
+        label: "Xem",
+        id: "view-btn",
+        action: function () { alert("Xóa được nhấn!"); }
+    },
     'save': {
         icon: "fas fa-save",
         label: "Lưu",
@@ -93,14 +99,14 @@ _common = new function () {
             url: url,
             contentType: contentType,
             data: data,
-            //contentType: false,
             //processData: false,
             success: function (res) {
                 successFunc(res);
             },
             error: function (xhr, status, error) {
                 console.error("Error: ", xhr.responseText);
-                errorFunc(xhr, status, error);
+                if (errorFunc != null && typeof (errorFunc) == 'function')
+                    errorFunc(xhr, status, error);
             }
         });
     }
@@ -241,6 +247,194 @@ _common = new function () {
             icon: "info",
             title: content
         });
+    }
+
+    /**
+     * 
+     * @param {any} tableId
+     */
+    this.LoadTableAndData = function (tableId, postDataJson, url, isShowCheck = true, isShowOrders = true, buttons = null) {
+        var table = $(`#${tableId}`);
+        table.find('thead').empty();
+        table.find('tbody').empty();
+        _common.PostWithJsonData(url, postDataJson, 'application/json',
+            function (res) {
+                if (res != null && !res.IsError) {
+                    var dataColumns = res.Data.DataColumns.sort((a, b) => {
+                        return a.Orders - b.Orders;
+                    });
+                    var dataRows = res.Data.DataRows;
+                    var primaryKey = "";
+
+                    // Tạo tiêu đề cột
+                    var headerRow = $("<tr></tr>");
+                    var th = null;
+
+                    if (isShowCheck) {
+                        th = $("<th data-col='col-check' style='text-align: center;'></th>").html(`<input type='checkbox' id='checkall-${tableId}' />`);
+                        headerRow.append(th);
+                    }
+
+                    if (isShowOrders) {
+                        th = $("<th data-col='col-order'></th>").text("STT");
+                        headerRow.append(th);
+                    }
+
+                    $.each(dataColumns, function (index, col) {
+                        th = $(`<th data-col="col-${col.FieldId}" class="sorting" aria-controls="${tableId}" tabindex="0" rowspan="1" colspan="1" aria-sort="ascending"></th>`).text(col.FieldName);
+                        headerRow.append(th);
+                        if (col.IsPrimaryKey) {
+                            primaryKey = col.FieldId;
+                        }
+                    });
+
+                    if (buttons && buttons.length > 0) {
+                        th = $("<th data-col='col-action'></th>");
+                        headerRow.append(th);
+                    }
+
+                    table.find("thead").append(headerRow);
+
+                    $.each(dataRows, function (index, rowData) {
+                        var classRow = index % 2 == 0 ? "even" : "odd";
+                        var row = $(`<tr class="${classRow}"></tr>`);
+                        var cell = null;
+                        var data = "";
+
+                        if (isShowCheck) {
+                            cell = $(`<td style='text-align: center;'><input type='checkbox' data-id='${rowData[primaryKey]}' class='inp-check'/></td>`)
+                            row.append(cell);
+                        }
+
+                        if (isShowOrders) {
+                            cell = $("<td></td>").text(index);
+                            row.append(cell);
+                        }
+
+                        $.each(dataColumns, function (index, col) {
+                            var cellValue = rowData[col.FieldId] || "";  // Lấy giá trị từ rowData theo colName
+                            cell = $("<td></td>").text(cellValue);
+                            row.append(cell);
+                            data += ` data-${col.FieldId}="${rowData[col.FieldId]}"`
+                        });
+
+                        if (buttons && buttons.length > 0) {
+                            cell = $("<td class='col-action'></td>");
+                            $.each(buttons, function (index, btn) {
+                                let buttonType, buttonAction;
+
+                                if (typeof btn === 'string') {
+                                    buttonType = btn;
+                                    buttonAction = buttonTypes[buttonType].action;
+                                } else {
+                                    buttonType = btn.type;
+                                    buttonAction = btn.action || buttonTypes[buttonType].action;
+                                }
+
+                                if (buttonTypes[buttonType]) {
+                                    var buttonElement = $(`<a href="javascript:void(0);" class="btn btn-info" style="border-radius: .2rem;" id="${buttonTypes[buttonType].id}-${rowData[primaryKey]}" ${data} data-id="${rowData[primaryKey]}" title="${buttonTypes[buttonType].label}">
+                                                <i class="${buttonTypes[buttonType].icon}"></i>
+                                            </a>`);
+
+                                    buttonElement.click(buttonAction);
+
+                                    cell.append(buttonElement);
+                                }
+                            })
+                            row.append(cell);
+                        }
+
+                        table.find("tbody").append(row);
+                    });
+                    
+
+                    $(`#checkall-${tableId}`).bind("change", function () {
+                        var checkStatus = this.checked;
+                        var checkbox = $(this).parents(`#${tableId}`).find('tr td:nth-child(1) input:checkbox');
+                        checkbox.each(function () {
+                            this.checked = checkStatus;
+                            if (this.checked) {
+                                checkbox.attr('selected', 'checked');
+                            } else {
+                                checkbox.attr('selected', '');
+                            }
+                        });
+                    });
+                }
+            },
+            function (xhr, status, error) {
+
+            }
+        );
+    }
+
+    this.LoadGridView = function (gridId, objectId) {
+        _common.StartLoading(gridId);
+        _common.PostWithJsonData('/admin/uiconfigs/get-fields-object', { objectId: objectId },
+            function (res) {
+                if (!res.IsError) {
+                    if (res.Data.length > 0) {
+                        var items = res.Data;
+                        var fieldsConfig = items.map(createFieldConfig);
+
+                        var colCombo = fieldsConfig.filter(field => field.type === 'select');
+                        var selectDataPromises = colCombo.map(field => {
+                            var item = items.find(c => c.FieldId === field.name)
+                            return $.ajax({
+                                url: '/admin/uiconfigs/get-combobox',
+                                data: { comboboxId: item.ComboboxId },
+                                type: 'POST',
+                                dataType: "application/json"
+                            }).then(data => {
+                                if (data && !data.IsError) {
+                                    var combobox = data.Combobox;
+                                    var fieldsCombobox = data.FieldsCombobox
+                                    if (combobox.IsUseText) {
+                                        field.items = JSON.parse(combobox.TextDataLoad);
+                                    }
+                                    else {
+
+                                    }
+                                }
+                            });
+                        });
+                    }
+
+                }
+            },
+            function () {
+
+            }
+        );
+    }
+
+    this.LoadGridData = function (gridId) {
+
+    }
+
+    this.GetDataComboxBox = function (cbxId) {
+
+    }
+}
+
+function createFieldConfig(column) {
+    if (column.DataTypeName === "select") {
+        return {
+            name: column.FieldId,
+            type: "select",
+            title: column.FieldName,
+            width: column.Width,
+            items: [],
+            valueField: "",
+            textField: ""
+        };
+    } else {
+        return {
+            name: column.FieldId,
+            type: column.DataTypeName,
+            title: column.FieldName,
+            width: column.Width
+        };
     }
 }
 

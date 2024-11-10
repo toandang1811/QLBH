@@ -3,22 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebBanHangOnline.Common;
 using WebBanHangOnline.Models;
 using WebBanHangOnline.Models.EF;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
-    [CustomAuthorizeAttribute(Roles = "Admin")]
+    [CustomAuthorize(permission: _Environment.VIEW, moduleId: _Environment.M_CATEGORIES)]
     public class CategoryController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: Admin/Category
+        [CustomAuthorize(permission: _Environment.VIEW, moduleId: _Environment.M_CATEGORIES)]
         public ActionResult Index()
         {
             var items = db.Categories;
             return View(items);
         }
 
+        [CustomAuthorize(permission: _Environment.ADD, moduleId: _Environment.M_CATEGORIES)]
         public ActionResult Add()
         {
             return View();
@@ -26,6 +29,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [CustomAuthorize(permission: _Environment.ADD, moduleId: _Environment.M_CATEGORIES)]
         public ActionResult Add(Category model)
         {
             if (ModelState.IsValid)
@@ -42,12 +46,15 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             return View(model);
         }
 
+        [CustomAuthorize(permission: _Environment.UPDATE, moduleId: _Environment.M_CATEGORIES)]
         public ActionResult Edit(int id)
         {
             var item = db.Categories.Find(id);
             return View(item);
         }
+
         [HttpPost]
+        [CustomAuthorize(permission: _Environment.UPDATE, moduleId: _Environment.M_CATEGORIES)]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Category model)
         {
@@ -74,6 +81,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         }
 
         [HttpPost]
+        [CustomAuthorize(permission: _Environment.DELETE, moduleId: _Environment.M_CATEGORIES)]
         public ActionResult Delete(int id)
         {
             var item = db.Categories.Find(id);

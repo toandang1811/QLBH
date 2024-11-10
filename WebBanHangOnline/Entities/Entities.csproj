@@ -41,9 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UIConfigs\FieldObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Role.cs" />
     <Compile Include="ThongKeModel.cs" />
+    <Compile Include="UIConfigs\SysCombobox.cs" />
+    <Compile Include="UIConfigs\SysFieldCombobox.cs" />
     <Compile Include="UserInfo.cs" />
     <Compile Include="UserRole.cs" />
   </ItemGroup>

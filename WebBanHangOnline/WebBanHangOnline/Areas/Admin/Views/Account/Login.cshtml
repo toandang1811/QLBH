@@ -28,6 +28,7 @@
     {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true);
+        <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
 
         @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger"} )
         <div class="input-group mb-3">

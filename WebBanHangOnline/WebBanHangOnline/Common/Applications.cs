@@ -207,44 +207,45 @@ namespace WebBanHangOnline.Common
                        || value is decimal;
         }
 
-        public bool HasPermission(string moduleId, string permissionId, string userId)
-        {
-            UserBL bl = new UserBL();
-            using (var db = new ApplicationDbContext())
-            {
-                var user = db.Users.Find(userId);
-                if (user != null && user.Roles.Any())
-                {
-                    foreach (var role in user.Roles)
-                    {
-                        if (RoleHasPermission(role.RoleId, permissionId))
-                        {
-                            return true;
-                        }
-                    }
-                }
-                return db.UserPermissions.Any(x => x.UserId == userId && x.PermissionId == permissionId && x.ModuleId == moduleId);
-            }
-        }
+        //public bool HasPermission(string moduleId, string permissionId, string userId)
+        //{
+        //    UserBL bl = new UserBL();
+        //    using (var db = new ApplicationDbContext())
+        //    {
+        //        var user = db.Users.Find(userId);
+        //        if (user != null && user.Roles.Any())
+        //        {
+        //            foreach (var role in user.Roles)
+        //            {
+        //                if (RoleHasPermission(role.RoleId, permissionId))
+        //                {
+        //                    return true;
+        //                }
+        //            }
+        //        }
+        //        return db.UserPermissions.Any(x => x.UserId == userId && x.PermissionId == permissionId && x.ModuleId == moduleId);
+        //    }
+        //}
 
-        public bool RoleHasPermission(string roleId, string permissionId)
-        {
-            using (var db = new ApplicationDbContext())
-            {
-                return db.RolePermissions.Any(x => x.RoleId.ToString() == roleId && x.PermissionId == permissionId);
-            }
-        }
+        //public bool RoleHasPermission(string roleId, string permissionId)
+        //{
+        //    using (var db = new ApplicationDbContext())
+        //    {
+        //        return db.RolePermissions.Any(x => x.RoleId.ToString() == roleId && x.PermissionId == permissionId);
+        //    }
+        //}
 
         public Dictionary<SideBarViewModel, List<SideBarViewModel>> GetTreeModules()
         {
             var tree = new Dictionary<SideBarViewModel, List<SideBarViewModel>>();
             var items = new List<SideBarViewModel>();
+            var userBl = new UserBL();
             using (var db = new ApplicationDbContext())
             {
                 var modules = db.Modules.Where(x => x.IsActive && x.IsSideBar).OrderBy(x => x.ParentId).OrderBy(x => x.Orders);
                 foreach (var module in modules)
                 {
-                    if (HasPermission(module.ModuleId, "view", _Environment.UserId))
+                    if (userBl.CheckHasPermission(_Environment.UserId, module.ModuleId, _Environment.VIEW))
                     {
                         items.Add(new SideBarViewModel
                         {
